@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>VueJS - Guia completo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+<body>
+
+    <div id="app">
+        <p>Curso: {{ curso }}</p>
+        <a v-bind:href="docs">VueJS</a>
+    </div>
+
+    <script type="text/javascript">
+    
+        new Vue({
+            el: '#app',
+            data: {
+                curso: 'VueJS',
+                docs: 'https://vuejs.org'
+            }
+        });
+
+    </script>
+    
+</body>
+</html>
