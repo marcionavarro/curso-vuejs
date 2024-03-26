@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>VueJS - Guia completo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <p>Nome: {{ nomeCompleto }}</p>
+        <button @click="alterarNomes">Alterar nomes</button>
+    </div>
+
+    <script type="text/javascript">
+    
+        new Vue({
+            el: '#app',
+            data: {
+                primeiroNome: 'Marcio',
+                ultimoNome: 'Navarro',
+                // nomeCompleto: 'Marcio Navarro'
+            },
+            computed: {
+                nomeCompleto: function() {
+                    return this.primeiroNome + ' ' + this.ultimoNome;
+                }
+            },
+            /*watch: {
+                primeiroNome: function(novoPrimeiroNome, antigoPrimeiroNome) {
+                    this.nomeCompleto = novoPrimeiroNome + ' ' + this.ultimoNome;
+                },
+                ultimoNome: function(novoUltimoNome, antigoUltimoNome) {
+                    this.nomeCompleto = this.primeiroNome + ' ' + novoUltimoNome;
+                }
+            },*/
+            methods: {
+                alterarNomes: function(event) {
+                    this.primeiroNome = 'Navarro';
+                    this.ultimoNome = 'Marcio';
+                }
+            }
+        });
+
+    </script>
+    
+</body>
+</html>
