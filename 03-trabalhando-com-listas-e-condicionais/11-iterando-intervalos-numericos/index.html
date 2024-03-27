@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>VueJS - Guia completo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+</head>
+<body>
+    
+    <div id="app">
+        <h1>Números</h1>
+        <ul>
+            <li v-for="(valor, indice) in 30">{{ indice }}: {{ valor }}</li>
+        </ul>
+    </div>    
+    
+    <script type="text/javascript">
+
+        new Vue({
+            el: '#app'
+        });
+        
+    </script>
+    
+</body>
+</html>
