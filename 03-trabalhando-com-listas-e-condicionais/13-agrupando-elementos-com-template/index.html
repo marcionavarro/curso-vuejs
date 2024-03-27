@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>VueJS - Guia completo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+        .separador{
+            list-style: none;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <p>Produtos</p>
+        <ul>
+            <template v-for="produto in produtos">
+                <li>{{ produto.nome }}</li>
+                <li class="separador"></li>
+            </template>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+
+        new Vue({
+            el: '#app',
+            data: {
+                produtos: [
+                    { id: 1, nome: 'Monitor' },
+                    { id: 2, nome: 'Teclado' },
+                    { id: 3, nome: 'Mouse' },
+                    { id: 4, nome: 'Processador' }
+                ]
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
