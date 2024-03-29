@@ -1,8 +1,14 @@
 import Vue from 'vue'
-import App from './App.vue'
 
-Vue.config.productionTip = false
+Vue.component('mn-component', {
+  data: function () {
+    return {
+      titulo: 'Curso de VueJs'
+    }
+  },
+  template: '<h1>{{ titulo }}</h1>'
+})
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  el: '#app',
+})
