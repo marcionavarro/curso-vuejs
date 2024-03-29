@@ -64,3 +64,7 @@ Corrigir automaticamente
 
 `npm install -g @vue/cli @vue/cli-service-global`  
 `vue serve OlaMundo.vue`
+
+### Vue CLI Init
+`npm i @vue/cli-init`   
+`vue init webpack vue-init-hello-world` 
