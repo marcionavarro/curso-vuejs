@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>VueJS - Guia completo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <h2>Instância Vue 1</h2>
+        <button @click="mostrar = !mostrar">Toggle</button>
+        <p v-if="mostrar">{{ titulo }}</p>
+    </div>
+
+    <script type="text/javascript">
+
+        var data = {
+            titulo: 'Curso de VueJs',
+            mostrar: true
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: data
+        });
+
+        console.log(vm)
+        console.log(vm.$el === document.getElementById('app'))
+        console.log(vm.$data === data)
+
+        setTimeout(function(){
+            data.titulo = 'VueJs'
+        }, 3000)
+
+    </script>
+
+</body>
+
+</html>

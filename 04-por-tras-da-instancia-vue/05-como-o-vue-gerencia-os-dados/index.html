@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>VueJS - Guia completo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <h2>Instância Vue 1</h2>
+        <p>{{ titulo }}</p>
+
+        <h3>Propriedades dinâmicas</h3>
+        <p>{{ novaPropriedade }}</p>
+        <p>{{ usuario }}</p>
+    </div>
+
+    <script type="text/javascript">
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                titulo: 'Curso de VueJs',
+                usuario: {}
+            }
+        });
+
+        // vm.titulo
+        // vm.novaPropriedade = 'Nova Propriedade' // Não reativo
+        console.log(vm)
+        setTimeout(function () {
+            vm.novaPropriedade = 'Nova Propriedade'
+            vm.$set(vm.usuario, 'nome', 'Marcio Navarro');
+            setTimeout(function(){
+                vm.novaPropriedade = 'Nova propriedade alterada!'
+                Vue.set(vm.usuario, 'email', 'marcionavarro@email.com')
+            }, 3000)
+        }, 3000)
+
+    </script>
+
+</body>
+
+</html>
