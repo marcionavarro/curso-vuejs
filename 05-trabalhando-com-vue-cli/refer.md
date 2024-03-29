@@ -35,3 +35,32 @@ vuetify
     - Use a-la-carte components? (Y/n) y
     - Select locale (Use arrow keys)
         - English
+
+### Pre-Processors
+
+Sass  
+`npm install -D sass-loader sass`
+
+### Variables
+
+`npm run serve -- --mode production`
+
+### Build
+
+`npm run build -- --mode development`    
+`npm run build`
+
+Acessar e rodar o build  
+`cd dist`  
+`npx http-server -o`
+
+### ESLint  
+
+Corrigir automaticamente  
+`npm run lint`  
+`npm run lint -- OlaMundo.vue`
+
+### Prototyping 
+
+`npm install -g @vue/cli @vue/cli-service-global`  
+`vue serve OlaMundo.vue`
