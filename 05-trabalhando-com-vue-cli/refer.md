@@ -17,3 +17,21 @@
 
 `cd vue-cli-hello-world`  
 `npm run serve`
+
+### Plugins  
+
+vuetify  
+`vue add vuetify`  
+
+* setup
+    - Still proceed? (y/N) y
+    - Vuetify 2 - Configure Vue CLI (advanced)
+    - Use a pre-made template? (will replace App.vue and HelloWorld.vue) (Y/n) y
+    -  Use custom theme? (y/N) n
+    - Use custom properties (CSS variables)? (y/N) n (default)
+    - Select icon font
+        - Material Icons
+    -  Use fonts as a dependency (for Electron or offline)? (y/N) n (default)
+    - Use a-la-carte components? (Y/n) y
+    - Select locale (Use arrow keys)
+        - English
