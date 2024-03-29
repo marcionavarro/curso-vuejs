@@ -1,52 +1,10 @@
 import Vue from 'vue'
+import App from './App.vue'
+// import AppContador from './AppContador.vue'
 
-/* Vue.component('mn-component', {
-  data: function () {
-    return {
-      titulo: 'Curso de VueJs',
-      contador: 0
-    }
-  },
-  methods: {
-    incrementar: function () {
-      this.contador++
-    }
-  },
-  template: `
-    <div>
-      <h1>{{ titulo }}</h1>
-      <button @click="incrementar">Clicado {{ contador }} vezes</button>
-    </div>
-  `
-}) */
 
-const mnComponent = {
-  data: function () {
-    return {
-      titulo: 'Curso de VueJs',
-      contador: 0
-    }
-  },
-  methods: {
-    incrementar: function () {
-      this.contador++
-    }
-  },
-  template: `
-    <div>
-      <h1>{{ titulo }}</h1>
-      <button @click="incrementar">Clicado {{ contador }} vezes</button>
-    </div>
-  `
-}
+// Vue.component('app-contador', AppContador)
 
 new Vue({
-  el: '#app1',
-  components: {
-    'mn-component': mnComponent
-  }
-})
-
-new Vue({
-  el: '#app2'
-})
+  render: h => h(App)
+}).$mount('#app')
