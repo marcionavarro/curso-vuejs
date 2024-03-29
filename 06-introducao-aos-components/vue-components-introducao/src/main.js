@@ -1,14 +1,52 @@
 import Vue from 'vue'
 
-Vue.component('mn-component', {
+/* Vue.component('mn-component', {
   data: function () {
     return {
-      titulo: 'Curso de VueJs'
+      titulo: 'Curso de VueJs',
+      contador: 0
     }
   },
-  template: '<h1>{{ titulo }}</h1>'
+  methods: {
+    incrementar: function () {
+      this.contador++
+    }
+  },
+  template: `
+    <div>
+      <h1>{{ titulo }}</h1>
+      <button @click="incrementar">Clicado {{ contador }} vezes</button>
+    </div>
+  `
+}) */
+
+const mnComponent = {
+  data: function () {
+    return {
+      titulo: 'Curso de VueJs',
+      contador: 0
+    }
+  },
+  methods: {
+    incrementar: function () {
+      this.contador++
+    }
+  },
+  template: `
+    <div>
+      <h1>{{ titulo }}</h1>
+      <button @click="incrementar">Clicado {{ contador }} vezes</button>
+    </div>
+  `
+}
+
+new Vue({
+  el: '#app1',
+  components: {
+    'mn-component': mnComponent
+  }
 })
 
 new Vue({
-  el: '#app',
+  el: '#app2'
 })
