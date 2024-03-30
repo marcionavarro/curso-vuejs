@@ -1,28 +1,32 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container py-4">
+    <header class="pb-3 mb-4 border-bottom">
+      <div class="d-flex align-items-center text-body-emphasis ">
+        <img src="./assets/vue-logo.svg" class="thumbnail" width="30px"/>
+        <span class="fs-4 ms-2">Curso de VueJS</span>
+      </div>
+    </header>
+
+    <div class="mb-4 bg-body-tertiary rounded-3">
+      <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Lista de Filmes</h1>
+        <p class="col-md-8 fs-4">Treinando comunicação entre components no Vue</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <FilmesLista />
+    </div>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import FilmesLista from './components/FilmesLista.vue'
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    FilmesLista
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
