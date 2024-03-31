@@ -7,14 +7,25 @@
 
 <script>
 export default {
-  props: ['filmeTitulo'],
+  props: {
+    filmeTitulo: {
+      type: String,
+      // required: true,
+      default () {
+        return 'Vingadores'
+      },
+      validator (filmeTitulo) {
+        return filmeTitulo.includes('Marvel')
+      }
+    }
+  },
   computed: {
     filmeTituloConcatenado () {
       return `Titulo: ${this.filmeTitulo}`
     }
   },
   created () {
-    console.log('Filme Titulo: ', this.filmeTitulo)
+    console.log(typeof this.filmeTitulo)
   }
 }
 </script>
