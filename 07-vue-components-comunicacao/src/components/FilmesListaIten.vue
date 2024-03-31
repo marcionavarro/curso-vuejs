@@ -1,33 +1,22 @@
 <template>
-  <div>
-    <input type="text" :value="titulo" :placeholder="$attrs.placeholder">
-  </div>
-  <!-- <li class="d-flex justify-content-between list-group-item">
-    <span>{{ filmeTituloConcatenado }} | {{ ano }}</span>
-    <button class="btn btn-success float-right">Editar</button>
-  </li> -->
+  <li class="d-flex justify-content-between list-group-item">
+    <span>{{ filme.titulo }} | {{ filme.ano }}</span>
+    <button @click="selecionar" class="btn btn-success float-right">Editar</button>
+  </li>
 </template>
 
 <script>
 export default {
-  inheritAttrs: false,
   props: {
-    titulo: {
-      type: String,
-      required: true
-    },
-    ano: {
-      type: Number,
+    filme: {
+      type: Object,
       required: true
     }
   },
-  computed: {
-    filmeTituloConcatenado () {
-      return `Titulo: ${this.titulo}`
+  methods: {
+    selecionar (event) {
+      this.$emit('selecionarFilme', this.filme)
     }
-  },
-  created () {
-    console.log('Attrs: ', this.$attrs)
   }
 }
 </script>

@@ -2,11 +2,20 @@
   <div>
     <h2>Filme selecionado</h2>
 
-    <div class="card mt-3">
-      <div class="d-flex flex-sm-column justify-content-between align-items-center card-body">
-        <h5 class="card-title">Vingadores: Guerra Infinita</h5>
-        <button class="btn btn-danger">Editar</button>
+    <div class="card mt-3" v-if="filme">
+      <div class="card-body">
+        <h5 class="card-title">{{ filme.titulo }} | {{ filme.ano }}</h5>
+        <button class="btn btn-danger float-end mt-2">Editar</button>
       </div>
     </div>
+    <p v-else>Nenhum filme selecionado</p>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    filme: Object
+  }
+}
+</script>
