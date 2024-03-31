@@ -8,8 +8,8 @@
 
       <ul class="list-group list-group-flush">
 
-        <!-- <FilmesListaIten v-for="(filme, index) in filmes" :key="index" :filmeTitulo="filme" /> -->
-        <FilmesListaIten filmeTitulo="Marvel Demolidor" />
+        <FilmesListaIten v-for="(filme) in filmes" :key="filme.id" class="tema-escuro" v-bind="filme"
+          placeholder="Titulo do filme" />
       </ul>
     </div>
 
@@ -36,10 +36,10 @@ export default {
   data () {
     return {
       filmes: [
-        'Vingadores: Guerra Infinita',
-        'Homem Formiga e a Vespa',
-        'Pantera Negra',
-        'Deadpool2'
+        { id: 1, titulo: 'Vingadores: Guerra Infinita', ano: 2018, diretor: 'Stan Lee' },
+        { id: 2, titulo: 'Homem Formiga e a Vespa', ano: 2018, diretor: 'Stan Lee' },
+        { id: 3, titulo: 'Pantera Negra', ano: 2018, diretor: 'Stan Lee' },
+        { id: 4, titulo: 'Deadpool2', ano: 2018, diretor: 'Stan Lee' }
       ]
     }
   }

@@ -1,31 +1,33 @@
 <template>
-  <li class="d-flex justify-content-between list-group-item">
-    <span>{{ filmeTituloConcatenado }}</span>
+  <div>
+    <input type="text" :value="titulo" :placeholder="$attrs.placeholder">
+  </div>
+  <!-- <li class="d-flex justify-content-between list-group-item">
+    <span>{{ filmeTituloConcatenado }} | {{ ano }}</span>
     <button class="btn btn-success float-right">Editar</button>
-  </li>
+  </li> -->
 </template>
 
 <script>
 export default {
+  inheritAttrs: false,
   props: {
-    filmeTitulo: {
+    titulo: {
       type: String,
-      // required: true,
-      default () {
-        return 'Vingadores'
-      },
-      validator (filmeTitulo) {
-        return filmeTitulo.includes('Marvel')
-      }
+      required: true
+    },
+    ano: {
+      type: Number,
+      required: true
     }
   },
   computed: {
     filmeTituloConcatenado () {
-      return `Titulo: ${this.filmeTitulo}`
+      return `Titulo: ${this.titulo}`
     }
   },
   created () {
-    console.log(typeof this.filmeTitulo)
+    console.log('Attrs: ', this.$attrs)
   }
 }
 </script>
