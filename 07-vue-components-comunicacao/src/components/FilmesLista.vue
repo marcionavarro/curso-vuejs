@@ -58,12 +58,21 @@ export default {
     editarFilme (filme) {
       this.editar = true
       this.filmeSelecionado = filme
+    },
+    atualizarFilme (filmeAtualizado) {
+      console.log(filmeAtualizado)
+      const indice = this.filmes.findIndex(filme => filme.id === filmeAtualizado.id)
+      const teste = this.filmes.splice(indice, 1, filmeAtualizado)
+      console.log(teste)
+      this.filmeSelecionado = undefined
+      this.editar = false
     }
   },
   created () {
     eventBus.$on('selecionarFilme', (filmeSelecionado) => {
       this.filmeSelecionado = filmeSelecionado
     })
+    eventBus.$on('atualizarFilme', this.atualizarFilme)
   }
 }
 </script>
