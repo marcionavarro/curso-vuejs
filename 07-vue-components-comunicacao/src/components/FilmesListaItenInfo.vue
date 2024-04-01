@@ -5,7 +5,7 @@
     <div class="card mt-3" v-if="filme">
       <div class="card-body">
         <h5 class="card-title">{{ filme.titulo }} | {{ filme.ano }}</h5>
-        <button class="btn btn-danger float-end mt-2">Editar</button>
+        <button @click="editar" class="btn btn-danger float-end mt-2">Editar</button>
       </div>
     </div>
     <p v-else>Nenhum filme selecionado</p>
@@ -24,6 +24,11 @@ export default {
     eventBus.$on('selecionarFilme', (filmeSelecionado) => {
       this.filme = filmeSelecionado
     })
+  },
+  methods: {
+    editar (event) {
+      this.$emit('editarFilme', this.filme)
+    }
   }
 }
 </script>
