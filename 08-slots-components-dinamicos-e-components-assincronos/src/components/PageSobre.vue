@@ -14,10 +14,16 @@ export default {
         }
     },
     created() {
-        console.log('created!')
+        console.log('Created!')
     },
     destroyed() {
-        console.log('destroyed!')
+        console.log('Destroyed!')
+    },
+    activated(){
+        console.log('Activated!')
+    },
+    deactivated() {
+        console.log('Deactivated!')
     }
 }
 </script>

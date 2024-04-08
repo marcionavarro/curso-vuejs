@@ -5,8 +5,9 @@
     <button @click="componentSelecionado = 'Home'">Home</button>
     <button @click="componentSelecionado = 'Sobre'">Sobre</button>
     <button @click="componentSelecionado = 'PostsLista'">Posts</button>
+    <button @click="componentSelecionado = 'AssincronoTester'">Assincrono</button>
 
-    <KeepAlive>
+    <KeepAlive :include="['Sobre']">
       <component :is="componentSelecionado" v-bind="propsAtuais"></component>
     </KeepAlive>
   </div>
@@ -21,7 +22,8 @@ export default {
   components: {
     Home,
     Sobre,
-    PostsLista
+    PostsLista,
+    AssincronoTester: () => import('./components/AssincronoTester.vue')
   },
   data() {
     return {
