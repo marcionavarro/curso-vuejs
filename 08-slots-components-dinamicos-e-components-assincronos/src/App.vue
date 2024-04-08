@@ -1,30 +1,44 @@
 <template>
   <div id="app" class="container">
-    <h1>Vue JS</h1>
-    <Post>
-      <h2 slot="cabecalho">Components VueJS</h2>
-      <template  slot="conteudo">
-        <p>Components são umas das peças mais importante do Vue</p>
-        <span>...</span>
+    <h1>Forma padrão</h1>
+
+    <PostsLista :posts="posts"/>
+    <br>
+    <hr />
+    <br>
+
+    <h1>Slots com escopo</h1>
+
+    <PostsLista :posts="posts">
+      <template slot-scope="slotProps">
+        <h2>{{ slotProps.meuPost.titulo }}</h2>
+        <p>{{ slotProps.meuPost.conteudo }}</p>
+        <small>{{ slotProps.meuPost.autor }}</small>
       </template>
-      
-      <small slot="rodape">por Marcio Navarro</small>
-    </Post>
+    </PostsLista>
   </div>
 </template>
 
 <script>
-import Post from './components/PostList.vue'
+import PostsLista from './components/PostsLista.vue'
 
 export default {
   components: {
-    Post
+    PostsLista
+  },
+  data() {
+    return {
+      posts: [
+        { id: 1, titulo: 'Components no Vue', conteudo: 'Components são uma das peças mais importantes no Vue', autor: 'Marcio Navarro' },
+        { id: 2, titulo: 'Distribuindo conteúdo com Slots', conteudo: 'Slots podem ser usados como repositorios de código no HTML', autor: 'João Carlos' },
+      ]
+    }
   }
 }
 </script>
 
 <style scoped>
-.container{
+.container {
   width: 960px;
   margin: auto;
 }
