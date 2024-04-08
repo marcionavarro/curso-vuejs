@@ -1,37 +1,40 @@
 <template>
   <div id="app" class="container">
-    <h1>Forma padrão</h1>
+    <h1>Components Dinâmicos</h1>
 
-    <PostsLista :posts="posts"/>
-    <br>
-    <hr />
-    <br>
+    <button @click="componentSelecionado = 'Home'">Home</button>
+    <button @click="componentSelecionado = 'Sobre'">Sobre</button>
+    <button @click="componentSelecionado = 'PostsLista'">Posts</button>
 
-    <h1>Slots com escopo</h1>
-
-    <PostsLista :posts="posts">
-      <template slot-scope="slotProps">
-        <h2>{{ slotProps.meuPost.titulo }}</h2>
-        <p>{{ slotProps.meuPost.conteudo }}</p>
-        <small>{{ slotProps.meuPost.autor }}</small>
-      </template>
-    </PostsLista>
+    <KeepAlive>
+      <component :is="componentSelecionado" v-bind="propsAtuais"></component>
+    </KeepAlive>
   </div>
 </template>
 
 <script>
+import Home from './components/PageHome.vue'
+import Sobre from './components/PageSobre.vue'
 import PostsLista from './components/PostsLista.vue'
 
 export default {
   components: {
+    Home,
+    Sobre,
     PostsLista
   },
   data() {
     return {
+      componentSelecionado: 'Home',
       posts: [
         { id: 1, titulo: 'Components no Vue', conteudo: 'Components são uma das peças mais importantes no Vue', autor: 'Marcio Navarro' },
         { id: 2, titulo: 'Distribuindo conteúdo com Slots', conteudo: 'Slots podem ser usados como repositorios de código no HTML', autor: 'João Carlos' },
       ]
+    }
+  },
+  computed: {
+    propsAtuais() {
+      return this.componentSelecionado === 'PostsLista' ? { posts: this.posts } : {}
     }
   }
 }
