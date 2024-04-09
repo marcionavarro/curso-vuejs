@@ -1,8 +1,8 @@
 <template>
     <div>
         <label>{{ customLabel }}</label>
-        <input type="range" v-bind="$attrs" :value="value" :class="inputClasses"
-            @input="atualizar">
+        <input type="range" v-bind="$attrs" :value="valor" :class="inputClasses"
+            @change="atualizar">
     </div>
 </template>
 
@@ -10,16 +10,17 @@
 export default {
     inheritAttrs: false,
     model: {
-        prop: 'valor'
+        prop: 'valor', 
+        event: 'change'
     },
     props: {
         label: String,
-        value: [Number, String],
+        valor: [Number, String],
         inputClasses: [String, Object, Array]
     },
     data(){
         return {
-            valorAtual: this.value || this.$attrs.min
+            valorAtual: this.valor || this.$attrs.min
         }
     },
     computed: {
@@ -30,7 +31,7 @@ export default {
     methods: {
         atualizar(){
             const valor = event.target.value
-            this.$emit('input', valor)
+            this.$emit('change', valor)
             this.valorAtual = valor
         }
     },
