@@ -18,9 +18,11 @@
 
         <div class="container">
           <button class="btn btn-primary mb-3" @click="mostrar = !mostrar">Alterar</button>
-          <transition name="slider" type="animation" :duration="{ enter: 1200, leave: 500 }">
-            <div class="alert alert-primary" v-if="mostrar">Animações no Vue</div>
-          </transition>
+          <div id="example-3">
+            <transition enter-active-class="animated bounceInLeft" leave-active-class=" animated bounceOutDown">
+              <div class="alert alert-primary" v-if="mostrar">Animações no Vue</div>
+            </transition>
+          </div>
         </div>
 
         <footer class="pt-3 mt-5 text-body-secondary border-top">
@@ -41,6 +43,12 @@ export default {
 }
 </script>
 
+<style>
+body {
+  overflow: hidden;
+}
+</style>
+
 <style scoped>
 /* slide */
 .slider-enter,
@@ -49,8 +57,8 @@ export default {
 }
 
 .slider-enter-active {
-  animation: slide 0.7s;
-  transition: 0.7s;
+  animation: slide 0.7s cubic-bezier(.17, .67, .8, .31);
+  transition: 0.7s cubic-bezier(.17, .67, .8, .31);
 }
 
 .slider-leave-active {
