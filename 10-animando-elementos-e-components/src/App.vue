@@ -16,10 +16,55 @@
           </div>
         </div>
 
-        <footer class="pt-3 mt-4 text-body-secondary border-top">
+        <div class="container">
+          <button class="btn btn-primary mb-3" @click="mostrar = !mostrar">Alterar</button>
+          <transition>
+            <div class="alert alert-primary" v-if="mostrar">Animações no Vue</div>
+          </transition>
+        </div>
+
+        <footer class="pt-3 mt-5 text-body-secondary border-top">
           &copy; 2024
         </footer>
       </div>
     </main>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      mostrar: true
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* entrada */
+.v-enter {
+  opacity: 0;
+}
+
+.v-enter-active {
+  transition: opacity 1s;
+}
+
+.v-enter-to {
+  opacity: 1;
+}
+
+/* saida */
+.v-leave {
+  opacity: 1;
+}
+
+.v-leave-active {
+  transition: opacity 1s;
+}
+
+.v-leave-to {
+  opacity: 0;
+}
+</style>
