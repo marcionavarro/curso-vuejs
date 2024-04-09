@@ -17,7 +17,7 @@
 
           <h3>Preencha abaixo</h3>
 
-          <form>
+          <form @submit.prevent="enviar" @reset="resetar">
 
             <div class="form-group">
               <label>Nome:</label>
@@ -52,8 +52,9 @@
 
             <div class="form-group">
               <label>Ocupação:</label>
-              <select class="form-control" placeholder="Seu email">
-                <option>Selecione uma opção...</option>
+              <select class="form-control" v-model="desenvolvedor.ocupacao">
+                <option value="" disabled>Selecione uma opção...</option>
+                <option v-for="(ocupacao, indice) in ocupacoes" :key="indice" :value="ocupacao">{{ ocupacao }}</option>
               </select>
             </div>
 
@@ -90,6 +91,10 @@
             </div>
 
             <div class="form-group">
+              <AppRange label="Salario pretendido" v-model.number="desenvolvedor.salario" min="1000" max="15000" step="500" :inputClasses="[{'form-control-range': true}, 'minha-classe']"/>
+            </div>
+
+            <div class="form-group">
 
               <div class="form-check form-check-inline">
                 <input type="checkbox" class="form-check-input" v-model="desenvolvedor.notificacoes" true-value="Sim"
@@ -99,8 +104,9 @@
 
             </div>
 
-            <button class="btn btn-secondary">Resetar</button>
-            <button class="btn btn-success">Enviar</button>
+            <button class="btn btn-secondary" type="reset">Resetar</button>
+            <!-- <button class="btn btn-success" type="button" @click="enviar">Enviar</button> -->
+            <button class="btn btn-success" type="submit" @click="enviar">Enviar</button>
 
           </form>
 
@@ -120,7 +126,7 @@
               <li class="list-group-item"><strong>Email:</strong> {{ desenvolvedor.email }}</li>
               <li class="list-group-item"><strong>Idade:</strong> {{ desenvolvedor.idade }}</li>
               <li class="list-group-item"><strong>Gênero:</strong> {{ desenvolvedor.genero }}</li>
-              <li class="list-group-item"><strong>Ocupação:</strong> </li>
+              <li class="list-group-item"><strong>Ocupação:</strong> {{ desenvolvedor.ocupacao }}</li>
               <li class="list-group-item">
                 <strong>Tecnologias:</strong>
                 <ul>
@@ -137,6 +143,10 @@
               <li class="list-group-item">
                 <strong>Receber notificações?</strong>
                 {{ desenvolvedor.notificacoes }}
+              </li>
+              <li class="list-group-item">
+                <strong>Salário pretendido:</strong>
+                {{ desenvolvedor.salario }}
               </li>
             </ul>
 
@@ -159,19 +169,46 @@
 
 
 <script>
+
+import AppRange from './components/AppRange.vue'
 export default {
+  components: {
+    AppRange
+  },
   data() {
     return {
-      desenvolvedor: {
+      desenvolvedor: {},
+      valoresPadroes: {
         nome: 'Marcio',
         email: '',
         idade: 28,
         biografia: 'Sou desenvolvedor',
         genero: 'Masculino',
         tecnologias: [],
-        notificacoes: 'Não'
-      }
+        notificacoes: 'Não',
+        ocupacao: '',
+        salario: 1000
+      },
+      ocupacoes: [
+        'Desenvolvedor Front End (Web)',
+        'Desenvolvedor Front End (Mobile)',
+        'Desenvolvedor Front End (Web e Mobile)',
+        'Desenvolvedor Back End',
+        'Desenvolvedor Full Stack',
+      ]
     }
+  },
+  methods: {
+    enviar() {
+      const formularioEnviado = Object.assign({}, this.desenvolvedor)
+      console.log('Formulário Enviado!', formularioEnviado)
+    },
+    resetar() {
+      this.desenvolvedor = Object.assign({}, this.valoresPadroes)
+    }
+  },
+  created() {
+    this.resetar()
   }
 }
 </script>
