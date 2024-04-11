@@ -17,8 +17,6 @@
         </div>
 
         <div class="container">
-          <button class="btn btn-primary mb-3" @click="mostrar = !mostrar">Alterar</button>
-
           <div class="form-group mb-3">
             <select class="form-control" v-model="animacaoSelecionada">
               <option value="fade">Fade</option>
@@ -27,9 +25,16 @@
             </select>
           </div>
 
-          <transition :name="animacaoSelecionada">
-            <div class="alert alert-primary" v-if="mostrar" key="informacao">Animações no Vue</div>
-            <div class="alert alert-success" v-else key="sucesso">Animações no Vue (success)</div>
+          <div class="form-group">
+            <label>Component:</label>
+            <select class="form-control my-3" v-model="componentSelecionado">
+              <option value="AppHome">Home</option>
+              <option value="AppSobre">Sobre</option>
+            </select>
+          </div>
+
+          <transition :name="animacaoSelecionada" mode="out-in">
+            <component :is="componentSelecionado"></component>
           </transition>
         </div>
 
@@ -43,10 +48,24 @@
 
 <script>
 export default {
+  components: {
+    AppHome: () => import('./components/AppHome.vue'),
+    AppSobre: () => import('./components/AppSobre.vue')
+  },
   data () {
     return {
       mostrar: true,
-      animacaoSelecionada: 'fade'
+      animacaoSelecionada: 'fade',
+      alertAtual: 'info',
+      componentSelecionado: 'AppHome'
+    }
+  },
+  computed: {
+    classeDeAlerta () {
+      return {
+        alert: true,
+        [`alert-${this.alertAtual}`]: true
+      }
     }
   }
 }
