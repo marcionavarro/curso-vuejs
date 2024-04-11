@@ -19,9 +19,10 @@
         <div class="container">
           <button class="btn btn-primary mb-3" @click="mostrar = !mostrar">Alterar</button>
           <div>
-            <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter"
-              @enter-cancelled="enterCancelled" @before-leave="beforeLeave" @leave="leave" @after-leave="afterLeave"
-              @leave-cancelled="leaveCancelled" :css="false">
+            <transition appear appear-class="" appear-active-class="animated flipInY" appear-to-class=""
+              @before-appear="beforeAppear" @appear="appear" @after-appear="afterAppear"
+              @appear-cancelled="appearCancelled" enter-active-class="animated bounceInLeft"
+              leave-active-class="animated bounceOutDown">
               <div class="alert alert-primary" v-if="mostrar">Animações no Vue</div>
             </transition>
           </div>
@@ -43,6 +44,19 @@ export default {
     }
   },
   methods: {
+    beforeAppear (el) {
+      console.log('beforeAppear')
+    },
+    appear (el, done) {
+      console.log('appear')
+      setTimeout(done, 1000)
+    },
+    afterAppear (el) {
+      console.log('afterAppear')
+    },
+    appearCancelled (el) {
+      console.log('appearCancelled')
+    },
     beforeEnter (el) {
       console.log('beforeEnter')
       el.style.opacity = 0
