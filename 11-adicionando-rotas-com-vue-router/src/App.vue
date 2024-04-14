@@ -17,7 +17,7 @@
         </div>
 
         <div class="container">
-          <h3 class="fw-light">Contatos</h3>
+          <router-view></router-view>
         </div>
 
         <footer class="pt-3 mt-5 text-body-secondary border-top">
