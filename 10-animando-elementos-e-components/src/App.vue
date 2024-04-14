@@ -9,33 +9,32 @@
           </a>
         </header>
 
-        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-          <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Animações</h1>
-            <p class="col-md-8 fs-4">Treinando transição/animação de elementos/components no Vue.</p>
-          </div>
-        </div>
-
         <div class="container">
-          <div class="form-group mb-3">
-            <select class="form-control" v-model="animacaoSelecionada">
-              <option value="fade">Fade</option>
-              <option value="zoom">Zoom</option>
-              <option value="slide">Slide</option>
-            </select>
+          <h3 class="font-weight-light">Tecnologias</h3>
+
+          <div class="row align-items-center my-4">
+            <div class="col-sm-2">
+              <button class="btn btn-outline-info btn-sm text-white" @click="embaralhar">Embaralhar</button>
+            </div>
+
+            <div class="col-sm-10">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Insira um novo item e pressione Enter"
+                  @keyup.enter="adicionar" ref="input">
+              </div>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>Component:</label>
-            <select class="form-control my-3" v-model="componentSelecionado">
-              <option value="AppHome">Home</option>
-              <option value="AppSobre">Sobre</option>
-            </select>
-          </div>
-
-          <transition :name="animacaoSelecionada" mode="out-in">
-            <component :is="componentSelecionado"></component>
-          </transition>
+          <transition-group tag="ul" class="list-group" name="list">
+            <li class="list-group-item d-flex justify-content-between" v-for="(tecnologia, indice) in tecnologias"
+              :key="tecnologia">
+              <span>
+                {{ tecnologia }}</span>
+              <button class="btn btn-outline-danger btn-sm text-white" @click="remover(indice)">
+                x
+              </button>
+            </li>
+          </transition-group>
         </div>
 
         <footer class="pt-3 mt-5 text-body-secondary border-top">
@@ -47,82 +46,51 @@
 </template>
 
 <script>
+import { shuffle } from 'lodash'
+
 export default {
-  components: {
-    AppHome: () => import('./components/AppHome.vue'),
-    AppSobre: () => import('./components/AppSobre.vue')
-  },
   data () {
     return {
-      mostrar: true,
-      animacaoSelecionada: 'fade',
-      alertAtual: 'info',
-      componentSelecionado: 'AppHome'
+      tecnologias: [
+        'javaScript',
+        'VueJs',
+        'Vuex',
+        'Vue Router'
+      ]
     }
   },
-  computed: {
-    classeDeAlerta () {
-      return {
-        alert: true,
-        [`alert-${this.alertAtual}`]: true
-      }
+  methods: {
+    adicionar (event) {
+      const novoItem = event.target.value
+      const indice = Math.floor(Math.random() * this.tecnologias.length)
+      this.tecnologias.splice(indice, 0, novoItem)
+      this.$refs.input.value = ''
+    },
+    remover (indice) {
+      this.tecnologias.splice(indice, 1)
+    },
+    embaralhar (event) {
+      this.tecnologias = shuffle(this.tecnologias)
     }
   }
 }
 </script>
 
-<style>
-body {
-  overflow: hidden;
-}
-</style>
-
 <style scoped>
-/* slide */
-.slide-enter,
-.slide-leave-to {
+.list-enter,
+.list-leave-to {
   opacity: 0;
+  transform: translateX(-70px);
 }
 
-.slide-enter-active {
-  animation: slide 0.7s cubic-bezier(.17, .67, .8, .31);
-  transition: 0.7s cubic-bezier(.17, .67, .8, .31);
+.list-enter-active,
+.list-leave-active,
+.list-move {
+  transition: all 1s;
 }
 
-.slide-leave-active {
-  animation: slide 0.7s reverse;
-  transition: opacity 2s;
-}
-
-@keyframes slide {
-  0% {
-    transform: translateX(-100px);
-  }
-
-  100% {
-    transform: translateX(0px);
-  }
-}
-
-/* zoom */
-.zoom-enter,
-.zoom-leave-to {
-  transform: scale(0);
-}
-
-.zoom-enter-active,
-.zoom-leave-active {
-  transition: transform 0.5s;
-}
-
-/* zoom */
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 1s;
+.list-leave-active {
+  position: absolute;
+  width: calc(100% - 100px);
 }
 </style>
