@@ -4,6 +4,7 @@ import VueRouter from "vue-router"
 
 import HomePage from './views/HomePage'
 import ContatosPage from './views/contatos/ContatosPage'
+import ContatosHome from './views/contatos/ContatosHome'
 import ContatoDetalhes from './views/contatos/ContatoDetalhes'
 
 
@@ -14,7 +15,13 @@ export default new VueRouter({
   linkActiveClass: 'active',
   routes: [
     { path: '/', component: HomePage },
-    { path: '/contatos', component: ContatosPage },
-    { path: '/contatos/:id', component: ContatoDetalhes },
+    {
+      path: '/contatos',
+      component: ContatosPage,
+      children: [
+        { path: '', component: ContatosHome },
+        { path: ':id', component: ContatoDetalhes, name: 'contato' },
+      ]
+    },
   ]
 })
