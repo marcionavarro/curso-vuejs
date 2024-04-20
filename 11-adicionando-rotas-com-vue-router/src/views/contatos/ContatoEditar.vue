@@ -7,6 +7,9 @@
 
 <script>
 export default {
-  props: ['id']
+  props: ['id'],
+  created () {
+    console.log('Parametro: ', this.$route.params)
+  }
 }
 </script>

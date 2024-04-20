@@ -1,10 +1,7 @@
 <template>
   <li class="d-flex justify-content-between align-items-center">
     <span>{{ contato.nome }}</span>
-    <router-link :to="{
-      name: 'contato',
-      params: { id: contato.id }
-    }" class="link-info">
+    <router-link :to="{ path: `/contatos/${contato.id}` }" class="link-info">
       Detalhes
     </router-link>
     <!-- <a href="#" class="link-info" @click.prevent="verDetalhes">Detalhes</a> -->

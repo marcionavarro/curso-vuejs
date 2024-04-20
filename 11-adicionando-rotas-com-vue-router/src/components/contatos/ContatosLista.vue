@@ -3,8 +3,7 @@
     <h3 class="fw-lighter mb-4">Contatos</h3>
 
     <div class="form-group mb-3">
-      <input type="search" class="form-control" placeholder="Buscar contatos" @keyup.enter="buscar"
-        :value="$route.query.busca">
+      <input type="search" class="form-control" placeholder="Buscar contatos" @keyup.enter="buscar" :value="busca">
     </div>
 
     <ul class="list-group list-group-flush" v-if="contatosFiltrados.length > 0">
@@ -24,6 +23,7 @@ export default {
   components: {
     ContatosListaItem
   },
+  props: ['busca'],
   data () {
     return {
       contatos: [{
@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     contatosFiltrados () {
-      const busca = this.$route.query.busca
+      const busca = this.busca
       return !busca
         ? this.contatos
         : this.contatos.filter(c => c.nome.toLowerCase().includes(busca.toLowerCase()))

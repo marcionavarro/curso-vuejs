@@ -11,9 +11,11 @@ import ErroPage404Contatos from './views/ErroPage404Contatos.vue'
 import HomePage from './views/HomePage'
 
 
-
-
 Vue.use(VueRouter)
+
+const extrairParametroId = route => ({
+  id: +route.params.id
+})
 
 export default new VueRouter({
   mode: 'history',
@@ -23,23 +25,31 @@ export default new VueRouter({
       path: '/contatos',
       component: ContatosPage,
       alias: ['/meus-contatos', '/lista-de-contatos'],
+      props: (route) => {
+        const busca = route.query.busca
+        return busca ? { busca } : {}
+      },
       children: [
         {
-          path: ':id',
+          path: ':id(\\d+)',
           component: ContatoDetalhes,
           name: 'contato',
-          props: true
+          // props: true
+          props: extrairParametroId,
+          // props: { id: '10' }
         }, // meus-contatos.com/contatos/2
         {
-          path: ':id/editar',
-          alias: ':id/alterar',
+          // path: ':id(\\d+)/editar/:opcional?',
+          // path: ':id(\\d+)/editar/:zeroOuMais*',
+          path: ':id(\\d+)/editar/:umOuMais+',
+          alias: ':id(\\d+)/alterar',
           components: {
             default: ContatoEditar,
             'contato-detalhes': ContatoDetalhes
           },
           props: {
-            default: true,
-            'contato-detalhes': true
+            default: extrairParametroId,
+            'contato-detalhes': extrairParametroId
           }
         },  // meus-contatos.com/contatos/2/editar
         { path: '', component: ContatosHome, name: 'contatos' },
