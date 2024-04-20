@@ -1,16 +1,19 @@
 <template>
-  <div>
-    <h3 class="fw-lighter">Detalhes sobre o Contato id: {{ id }}</h3>
-    <div style="height: 900px;"></div>
-    <p id="parametros">Parâmetros: {{ parametros }}</p>
-    <p>Hash: {{ $route.hash }}</p>
-    <router-link :to="`/contatos/${id}/editar`" class="link-info">
+  <div v-if="contato">
+    <h3 class="fw-lighter">Nome: {{ contato.nome }}</h3>
+    <p>E-mail {{ contato.email }}</p>
+    <button class="btn btn-outline-secondary btn-sm me-3" @click="$router.back()">
+      voltar
+    </button>
+    <router-link :to="`/contatos/${id}/editar`" class="btn btn-outline-info btn-sm">
       Editar
     </router-link>
   </div>
 </template>
 
 <script>
+import EventBus from '@/event-bus'
+
 export default {
   // props: ['id'],
   props: {
@@ -21,12 +24,20 @@ export default {
   },
   data () {
     return {
-      parametros: this.$route.params
+      contato: undefined
     }
   },
+  /* created () {
+    this.contato = EventBus.buscarContato(this.id)
+  }, */
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      // vm.contato = EventBus.buscarContato(vm.id)
+      vm.contato = EventBus.buscarContato(+to.params.id)
+    })
+  },
   beforeRouteUpdate (to, from, next) {
-    console.log('beforeRouteUpdate')
-    this.parametros = to.params
+    this.contato = EventBus.buscarContato(+to.params.id)
     next()
   }
 }
