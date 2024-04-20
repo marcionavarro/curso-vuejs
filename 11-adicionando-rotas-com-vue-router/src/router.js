@@ -9,6 +9,9 @@ import ContatoEditar from './views/contatos/ContatoEditar'
 import ErroPage404 from './views/ErroPage404'
 import ErroPage404Contatos from './views/ErroPage404Contatos.vue'
 import HomePage from './views/HomePage'
+import LoginPage from './views/login/LoginPage'
+
+import EventBus from './event-bus'
 
 
 Vue.use(VueRouter)
@@ -69,6 +72,7 @@ const router = new VueRouter({
     { path: '/home', component: HomePage }, // meus-contatos.com
     // { path: '/', redirect: '/contatos' },
     // { path: '/', redirect: { name: 'contatos' } },
+    { path: '/login', component: LoginPage },
     {
       path: '/',
       redirect: () => {
@@ -83,6 +87,16 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   console.log('beforeEach')
   console.log('Requer Autenticação?', to.meta.requerAutenticacao)
+  const estaAutenticado = EventBus.autenticado
+  if (to.matched.some(rota => rota.meta.requerAutenticacao)) {
+    if (!estaAutenticado) {
+      next({
+        path: '/login',
+        query: { redirecionar: to.fullPath }
+      })
+      return
+    }
+  }
   next()
 })
 

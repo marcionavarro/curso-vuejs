@@ -21,7 +21,10 @@
             Home
           </router-link>
           <router-link :to="{ path: '/contatos' }" class="btn btn-info mb-4 me-3">Contatos</router-link>
-          <router-view></router-view>
+
+          <transition name="slide" mode="out-in">
+            <router-view></router-view>
+          </transition>
         </div>
 
         <footer class="pt-3 mt-5 text-body-secondary border-top">
@@ -32,8 +35,16 @@
   </div>
 </template>
 
-<script>
 
-</script>
+<style scoped>
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(-50px);
+  opacity: 0;
+}
 
-<style></style>
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s;
+}
+</style>
