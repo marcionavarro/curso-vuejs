@@ -16,8 +16,7 @@ Vue.use(VueRouter)
 const extrairParametroId = route => ({
   id: +route.params.id
 })
-
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   linkActiveClass: 'active',
   routes: [
@@ -41,8 +40,17 @@ export default new VueRouter({
         {
           // path: ':id(\\d+)/editar/:opcional?',
           // path: ':id(\\d+)/editar/:zeroOuMais*',
-          path: ':id(\\d+)/editar/:umOuMais+',
+          // path: ':id(\\d+)/editar/:umOuMais+',
+          path: ':id(\\d+)/editar',
           alias: ':id(\\d+)/alterar',
+          beforeEnter (to, from, next) {
+            console.log('beforeEnter')
+            next()
+            /*  if (to.query.autenticado === 'true') {
+               return next()
+             } 
+             next('/contatos')*/
+          },
           components: {
             default: ContatoEditar,
             'contato-detalhes': ContatoDetalhes
@@ -69,3 +77,14 @@ export default new VueRouter({
     { path: '*', component: ErroPage404 }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  console.log('beforeEach')
+  next()
+})
+
+router.afterEach(() => {
+  console.log('afterEach')
+})
+
+export default router

@@ -8,8 +8,20 @@
 <script>
 export default {
   props: ['id'],
-  created () {
-    console.log('Parametro: ', this.$route.params)
+  data () {
+    return {
+      curso: 'Curso de VueJS'
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    console.log('beforeRouteEnter')
+    // console.log('Curso: ', this.curso)
+    if (to.query.autenticado === 'true') {
+      return next((vm) => {
+        console.log('Curso: ', vm.curso)
+      })
+    }
+    next('/contatos')
   }
 }
 </script>
