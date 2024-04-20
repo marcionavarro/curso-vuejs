@@ -16,12 +16,18 @@ export default {
   beforeRouteEnter (to, from, next) {
     console.log('beforeRouteEnter')
     // console.log('Curso: ', this.curso)
-    if (to.query.autenticado === 'true') {
+    /* if (to.query.autenticado === 'true') {
       return next((vm) => {
         console.log('Curso: ', vm.curso)
       })
     }
-    next('/contatos')
+    next('/contatos') */
+    next()
+  },
+  beforeRouteLeave (to, from, next) {
+    console.log('beforeRouteLeave')
+    const confirmar = window.confirm('Deseja realmente sair?')
+    next(confirmar)
   }
 }
 </script>

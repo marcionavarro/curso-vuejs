@@ -43,13 +43,15 @@ const router = new VueRouter({
           // path: ':id(\\d+)/editar/:umOuMais+',
           path: ':id(\\d+)/editar',
           alias: ':id(\\d+)/alterar',
+          meta: { requerAutenticacao: true },
           beforeEnter (to, from, next) {
             console.log('beforeEnter')
-            next()
-            /*  if (to.query.autenticado === 'true') {
-               return next()
-             } 
-             next('/contatos')*/
+            next() // continuar
+            // next(true) // continuar
+            // next(false) // bloquear
+            // next('/contatos') // redirecionar
+            // next({ name: 'contatos' }) // redirecionar
+            // next(new Error(`Permissões insuficientes para acessar o recurso "${to.fullPath}"`))
           },
           components: {
             default: ContatoEditar,
@@ -80,11 +82,21 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   console.log('beforeEach')
+  console.log('Requer Autenticação?', to.meta.requerAutenticacao)
+  next()
+})
+
+router.beforeResolve((to, from, next) => {
+  console.log('beforeResolve')
   next()
 })
 
 router.afterEach(() => {
   console.log('afterEach')
+})
+
+router.onError(erro => {
+  console.log(erro)
 })
 
 export default router
