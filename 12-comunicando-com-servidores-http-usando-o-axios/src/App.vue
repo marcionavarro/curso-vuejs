@@ -16,6 +16,10 @@
           </div>
         </div>
 
+        <div class="container">
+          <TarefasLista />
+        </div>
+
         <footer class="pt-3 mt-5 text-body-secondary border-top">
           &copy; 2024
         </footer>
@@ -25,3 +29,13 @@
 </template>
 
 
+<script>
+import TarefasLista from './components/TarefasLista.vue'
+
+
+export default {
+    components: {
+        TarefasLista
+    }
+}
+</script>
