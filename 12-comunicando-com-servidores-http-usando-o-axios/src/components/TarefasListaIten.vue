@@ -5,7 +5,7 @@
         <button class="btn btn-sm me-3" :class="classeCSS" :title="tituloBotaoConcluido">
             <i class="fa fa-check"></i>
         </button>
-        <button class="btn btn-primary btn-sm me-2" title="Editar">
+        <button class="btn btn-primary btn-sm me-2" title="Editar" @click="$emit('editar', tarefa)">
             <i class="fa fa-pencil-alt"></i>
         </button>
         <button class="btn btn-danger btn-sm" title="Deletar">

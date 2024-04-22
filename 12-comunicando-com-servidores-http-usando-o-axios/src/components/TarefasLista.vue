@@ -1,15 +1,20 @@
 <template>
     <div>
-
-        <h1 class="font-weight-light">Lista de Tarefas</h1>
+        <div class="row">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="font-weight-light">Lista de Tarefas</h1>
+                <button class="btn btn-primary" @click="exibirFormulario = !exibirFormulario">
+                    <i class="fa fa-plus"></i>
+                    Criar
+                </button>
+            </div>
+        </div>
 
         <ul class="list-group" v-if="tarefas.length > 0">
-            <TarefasListaIten v-for="tarefa in tarefas" :key="tarefa.id" :tarefa="tarefa" />
+            <TarefasListaIten v-for="tarefa in tarefas" :key="tarefa.id" :tarefa="tarefa" @editar="selecionarTarefaParaEdicao"/>
         </ul>
-
         <p v-else>Nenhuma tarefa criada.</p>
-
-        <TarefaSalvar />
+        <TarefaSalvar v-if="exibirFormulario" :tarefa="tarefaSelecionada" @criar="criarTarefa" @editar="editarTarefa"/>
 
     </div>
 </template>
@@ -28,16 +33,46 @@ export default {
     },
     data() {
         return {
-            tarefas: []
+            tarefas: [],
+            exibirFormulario: false,
+            tarefaSelecionada: undefined
         }
     },
-    created(){
+    created() {
         axios.get(`${config.apiUrl}/tarefas`)
-        .then((response) => {
-            console.log(response)
-            this.tarefas = response.data
-        })
+            .then((response) => {
+                console.log('GET /tarefas', response)
+                this.tarefas = response.data
+            })
+    },
+    methods: {
+        criarTarefa(tarefa) {
+            axios.post(`${config.apiUrl}/tarefas`, tarefa)
+                .then((response) => {
+                    console.log('POST /tarefas', response)
+                    this.tarefas.push(response.data)
+                    this.exibirFormulario = false
+                    this.resetar()
+                })
+        },
+        editarTarefa(tarefa){
+            console.log('editar: ', tarefa)
+            axios.put(`${config.apiUrl}/tarefas/${tarefa.id}`, tarefa)
+                .then(response => {
+                    console.log(`PUT /tarefas/${tarefa.id}`, response)
+                    const indice = this.tarefas.findIndex(t => t.id === tarefa.id)
+                    this.tarefas.splice(indice, 1, tarefa)
+                    this.resetar()
+                })
+        },
+        resetar() {
+            this.tarefaSelecionada = undefined
+            this.exibirFormulario = false
+        },
+        selecionarTarefaParaEdicao(tarefa){
+        this.tarefaSelecionada = tarefa
+        this.exibirFormulario = true
+        }
     }
 }
 </script>
-
