@@ -3,27 +3,22 @@
     {
       "id": "1",
       "titulo": "Aprender JavaScript",
-      "concluido": true
+      "concluido": false
     },
     {
       "id": "2",
       "titulo": "Aprender Vue",
-      "concluido": true
+      "concluido": false
     },
     {
       "id": "3",
-      "titulo": "Aprender Axiossssss",
-      "concluido": true
+      "titulo": "Aprender Axios",
+      "concluido": false
     },
     {
       "id": "0819",
       "titulo": "Aprender Vuex",
-      "concluido": false
-    },
-    {
-      "id": "5694",
-      "titulo": "Aprender Vuetify",
-      "concluido": false
+      "concluido": true
     }
   ]
 }

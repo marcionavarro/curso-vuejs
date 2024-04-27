@@ -3,7 +3,7 @@
         <div class="row">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h1 class="font-weight-light">Lista de Tarefas</h1>
-                <button class="btn btn-primary" @click="exibirFormulario = !exibirFormulario">
+                <button class="btn btn-primary" @click="exibirFormularioCriarTarefa">
                     <i class="fa fa-plus"></i>
                     Criar
                 </button>
@@ -11,10 +11,11 @@
         </div>
 
         <ul class="list-group" v-if="tarefas.length > 0">
-            <TarefasListaIten v-for="tarefa in tarefas" :key="tarefa.id" :tarefa="tarefa" @editar="selecionarTarefaParaEdicao"/>
+            <TarefasListaIten v-for="tarefa in tarefasOrdenadas" :key="tarefa.id" :tarefa="tarefa"
+                @editar="selecionarTarefaParaEdicao" @deletar="deletarTarefa" @concluir="editarTarefa" />
         </ul>
         <p v-else>Nenhuma tarefa criada.</p>
-        <TarefaSalvar v-if="exibirFormulario" :tarefa="tarefaSelecionada" @criar="criarTarefa" @editar="editarTarefa"/>
+        <TarefaSalvar v-if="exibirFormulario" :tarefa="tarefaSelecionada" @criar="criarTarefa" @editar="editarTarefa" />
 
     </div>
 </template>
@@ -38,6 +39,21 @@ export default {
             tarefaSelecionada: undefined
         }
     },
+    computed: {
+        tarefasOrdenadas() {
+            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+            return this.tarefas.sort((t1, t2) => {
+                if (t1.concluido === t2.concluido) {
+                    return t1.titulo < t2.titulo
+                        ? -1
+                        : t1.titulo > t2.titulo
+                            ? 1
+                            : 0
+                }
+                return t1.concluido - t2.concluido
+            })
+        }
+    },
     created() {
         axios.get(`${config.apiUrl}/tarefas`)
             .then((response) => {
@@ -55,7 +71,7 @@ export default {
                     this.resetar()
                 })
         },
-        editarTarefa(tarefa){
+        editarTarefa(tarefa) {
             console.log('editar: ', tarefa)
             axios.put(`${config.apiUrl}/tarefas/${tarefa.id}`, tarefa)
                 .then(response => {
@@ -65,13 +81,32 @@ export default {
                     this.resetar()
                 })
         },
+        deletarTarefa(tarefa) {
+            console.log(tarefa);
+            const confirmar = window.confirm(`Deseja deletar a tarefa "${tarefa.titulo}" ?`)
+            if (confirmar) {
+                axios.delete(`${config.apiUrl}/tarefas/${tarefa.id}`)
+                    .then(response => {
+                        console.log(`DELETE /tarefas/${tarefa.id}`, response)
+                        const indice = this.tarefas.findIndex(t => t.id === tarefa.id)
+                        this.tarefas.splice(indice, 1)
+                    })
+            }
+        },
+        exibirFormularioCriarTarefa() {
+            if (this.tarefaSelecionada) {
+                this.tarefaSelecionada = undefined
+                return
+            }
+            this.exibirFormulario = !this.exibirFormulario
+        },
         resetar() {
             this.tarefaSelecionada = undefined
             this.exibirFormulario = false
         },
-        selecionarTarefaParaEdicao(tarefa){
-        this.tarefaSelecionada = tarefa
-        this.exibirFormulario = true
+        selecionarTarefaParaEdicao(tarefa) {
+            this.tarefaSelecionada = tarefa
+            this.exibirFormulario = true
         }
     }
 }
