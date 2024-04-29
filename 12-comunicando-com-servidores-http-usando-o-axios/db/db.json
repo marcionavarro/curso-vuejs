@@ -3,12 +3,13 @@
     {
       "id": "1",
       "titulo": "Aprender JavaScript",
-      "concluido": false
+      "concluido": true
     },
     {
       "id": "2",
       "titulo": "Aprender Vue",
-      "concluido": false
+      "concluido": true,
+      "curso": "Vue JS"
     },
     {
       "id": "3",
