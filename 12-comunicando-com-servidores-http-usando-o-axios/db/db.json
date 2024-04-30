@@ -6,12 +6,6 @@
       "concluido": true
     },
     {
-      "id": "2",
-      "titulo": "Aprender Vue",
-      "concluido": true,
-      "curso": "Vue JS"
-    },
-    {
       "id": "3",
       "titulo": "Aprender Axios",
       "concluido": false
