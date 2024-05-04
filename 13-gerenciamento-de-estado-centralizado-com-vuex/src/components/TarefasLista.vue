@@ -10,12 +10,23 @@
       </div>
     </div>
 
-    <ul class="list-group" v-if="tarefas.length > 0">
-      <TarefasListaIten v-for="tarefa in tarefas" :key="tarefa.id" :tarefa="tarefa"
+    <h4 class="fw-lighter">A fazer ({{ $store.getters.tarefasAfazer.length }})</h4>
+
+    <ul class="list-group mb-5" v-if="$store.getters.tarefasAfazer.length > 0">
+      <TarefasListaIten v-for="tarefa in $store.getters.tarefasAfazer" :key="tarefa.id" :tarefa="tarefa"
         @editar="selecionarTarefaParaEdicao" />
     </ul>
 
-    <p v-else>Nenhuma tarefa criada.</p>
+    <p v-else>Nenhuma tarefa a fazer.</p>
+
+    <h4 class="fw-lighter">Concluidas ({{ $store.getters.totalDeTarefasConcluidas }})</h4>
+
+    <ul class="list-group" v-if="tarefasConcluidas.length > 0">
+      <TarefasListaIten v-for="tarefa in tarefasConcluidas" :key="tarefa.id" :tarefa="tarefa"
+        @editar="selecionarTarefaParaEdicao" />
+    </ul>
+
+    <p v-else>Nenhuma tarefa foi concluida.</p>
 
     <TarefaSalvar v-if="exibirFormulario" :tarefa="tarefaSelecionada" />
 
@@ -23,7 +34,7 @@
 </template>
 
 <script>
-
+import { mapState } from 'vuex'
 import TarefaSalvar from './TarefaSalvar.vue'
 import TarefasListaIten from './TarefasListaIten.vue'
 
@@ -35,12 +46,13 @@ export default {
   data () {
     return {
       exibirFormulario: false,
-      tarefaSelecionada: undefined,
-      tarefas: [
-        { id: 1, titulo: 'Aprender Vue', concluido: true },
-        { id: 2, titulo: 'Aprender Vue Router', concluido: true },
-        { id: 3, titulo: 'Aprender Vuex', concluido: false }
-      ]
+      tarefaSelecionada: undefined
+    }
+  },
+  computed: {
+    ...mapState(['tarefas']),
+    tarefasConcluidas () {
+      return this.$store.getters.tarefasConcluidas
     }
   },
   methods: {
