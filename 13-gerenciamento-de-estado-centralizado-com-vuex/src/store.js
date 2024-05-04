@@ -18,5 +18,14 @@ export default new Vuex.Store({
     listarTarefas: (state, { tarefas }) => {
       state.tarefas = tarefas
     }
+  },
+  actions: {
+    listarTarefas: ({ commit }, payload) => {
+      console.log('action chamada...')
+      setTimeout(() => {
+        console.log('action executada...')
+        commit('listarTarefas', payload)
+      }, 2000)
+    }
   }
 })
