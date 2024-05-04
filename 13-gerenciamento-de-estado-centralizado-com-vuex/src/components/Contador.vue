@@ -17,9 +17,8 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      contador: state => state.contador.contador
-      // contador: 'contador'
+    ...mapState('contador', {
+      contador: state => state.contador
     })
   },
   methods: {

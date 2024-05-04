@@ -50,24 +50,17 @@ export default {
     }
   },
   computed: {
-    ...mapState(['tarefas']),
-    ...mapGetters(['tarefasAFazer', 'tarefasConcluidas', 'totalDeTarefasConcluidas'])
+    ...mapState('tarefas', ['tarefas']),
+    ...mapGetters('tarefas', ['tarefasAFazer', 'tarefasConcluidas', 'totalDeTarefasConcluidas'])
   },
   created () {
     setTimeout(async () => {
-      /* this.$store.dispatch('listarTarefas', {
-        tarefas: [
-          { id: 1, titulo: 'Aprender Vue', concluido: true },
-          { id: 2, titulo: 'Aprender Vue Router', concluido: true },
-          { id: 3, titulo: 'Aprender Vuex', concluido: false }
-        ]
-      }) */
       await this.carregarTarefas()
       console.log('Actions executadas!')
     }, 1000)
   },
   methods: {
-    ...mapActions({
+    ...mapActions('tarefas', {
       carregarTarefas: 'listarTarefas',
       listarTarefas: (dispatch, payload, options) => {
         return dispatch('listarTarefas', payload, options)

@@ -4,20 +4,25 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const contadorModule = {
+  namespaced: true,
   state: {
     contador: 0
   },
   gettters: {
-
+    contadorAtual: state => state.contador
   }
 }
 
 const tarefasModule = {
+  namespaced: true,
   state: {
     tarefas: []
   },
   getters: {
-    tarefasConcluidas: state => state.tarefas.filter(t => t.concluido),
+    tarefasConcluidas: (state, getters, rootState, rootGetters) => {
+      console.log('Getters: state: ', state, getters)
+      return state.tarefas.filter(t => t.concluido)
+    },
     tarefasAFazer: state => state.tarefas.filter(t => !t.concluido),
     totalDeTarefasConcluidas: (state, getters) => getters.tarefasConcluidas.length,
     buscarTarefaPorId: state => id => state.tarefas.find(t => t.id === id)
@@ -39,16 +44,20 @@ const tarefasModule = {
         }, 2000)
       })
     },
-    listarTarefas: async ({ commit, dispatch }, payload) => {
+    listarTarefas: async ({ commit, dispatch, state, rootState, getters, rootGetters }, payload) => {
       console.log('Action: listarTarefas')
       const tarefas = await dispatch('buscarTarefas')
       console.log('Mutation: listarTarefas')
       commit('listarTarefas', { tarefas })
+      console.log('Getters: state: ', state, rootState)
     }
   }
 }
 
 const store = new Vuex.Store({
+  state: {
+    usuario: 'Marcio Navarro'
+  },
   modules: {
     contador: contadorModule,
     tarefas: tarefasModule
