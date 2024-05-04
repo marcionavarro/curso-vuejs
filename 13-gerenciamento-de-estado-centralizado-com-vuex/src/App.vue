@@ -5,7 +5,7 @@
         <header class="pb-3 mb-4 border-bottom">
           <a href="/" class="d-flex align-items-center text-body-emphasis text-decoration-none">
             <img src="./assets/logo.png" alt="VueJS" width="32" />
-            <span class="fs-4 ms-2">VueJS</span>
+            <span class="fs-4 ms-2">Vuex</span>
           </a>
         </header>
 
@@ -16,6 +16,10 @@
           </div>
         </div>
 
+        <div class="container">
+          <Contador />
+        </div>
+
         <footer class="pt-3 mt-5 text-body-secondary border-top">
           &copy; 2024
         </footer>
@@ -23,3 +27,13 @@
     </main>
   </div>
 </template>
+
+<script>
+import Contador from '@/components/Contador.vue'
+
+export default {
+  components: {
+    Contador
+  }
+}
+</script>
