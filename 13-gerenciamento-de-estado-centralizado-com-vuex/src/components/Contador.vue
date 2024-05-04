@@ -18,15 +18,16 @@ export default {
   },
   computed: {
     ...mapState({
-      contador: 'contador'
+      contador: state => state.contador.contador
+      // contador: 'contador'
     })
   },
   methods: {
     decrementar () {
-      this.$store.state.contador--
+      this.$store.state.contador.contador--
     },
     incrementar () {
-      this.$store.state.contador++
+      this.$store.state.contador.contador++
     }
   }
 }

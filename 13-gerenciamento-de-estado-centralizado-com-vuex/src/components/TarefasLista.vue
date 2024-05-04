@@ -54,7 +54,7 @@ export default {
     ...mapGetters(['tarefasAFazer', 'tarefasConcluidas', 'totalDeTarefasConcluidas'])
   },
   created () {
-    setTimeout(() => {
+    setTimeout(async () => {
       /* this.$store.dispatch('listarTarefas', {
         tarefas: [
           { id: 1, titulo: 'Aprender Vue', concluido: true },
@@ -62,10 +62,8 @@ export default {
           { id: 3, titulo: 'Aprender Vuex', concluido: false }
         ]
       }) */
-      this.carregarTarefas()
-        .then(() => {
-          console.log('Actions executadas!')
-        })
+      await this.carregarTarefas()
+      console.log('Actions executadas!')
     }, 1000)
   },
   methods: {
