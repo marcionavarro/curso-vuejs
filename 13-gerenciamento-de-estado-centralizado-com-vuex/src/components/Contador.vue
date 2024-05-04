@@ -8,17 +8,17 @@
 
 <script>
 export default {
-  data () {
-    return {
-      contador: 0
+  computed: {
+    contador () {
+      return this.$store.state.contador
     }
   },
   methods: {
     decrementar () {
-      this.contador--
+      this.$store.state.contador--
     },
     incrementar () {
-      this.contador++
+      this.$store.state.contador++
     }
   }
 }
