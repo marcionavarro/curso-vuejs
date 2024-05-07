@@ -25,7 +25,14 @@ const tarefasModule = {
     },
     tarefasAFazer: state => state.tarefas.filter(t => !t.concluido),
     totalDeTarefasConcluidas: (state, getters) => getters.tarefasConcluidas.length,
-    buscarTarefaPorId: state => id => state.tarefas.find(t => t.id === id)
+    buscarTarefaPorId: state => id => state.tarefas.find(t => t.id === id),
+    boasVindas: (state, getters, rootState, rootGetters) => {
+      // state.tarefas // tarefas.tarefas
+      // getters.tarefasAFazer // 'tarefas/tarefasAFazer'
+      console.log('State Global: ', rootState.usuario)
+      console.log('Getter Global: ', rootGetters.mensagemBoasVindas)
+      return rootGetters.mensagemBoasVindas
+    }
   },
   mutations: {
     listarTarefas: (state, { tarefas }) => {
@@ -48,15 +55,34 @@ const tarefasModule = {
       console.log('Action: listarTarefas')
       const tarefas = await dispatch('buscarTarefas')
       console.log('Mutation: listarTarefas')
-      commit('listarTarefas', { tarefas })
+      commit('listarTarefas', { tarefas }) // tarefas/listarTarefas
       console.log('Getters: state: ', state, rootState)
+
+      // commit('logar', 'Marcio Navarro') // tarefas/logar (não funciona)
+      commit('logar', 'Marcio Navarro', { root: true }) // logar
+      // dispatch('logar', 'Marcio Navarro') // tarefas/logar (não funciona)
+      dispatch('logar', 'Marcio Navarro', { root: true }) // logar
+      // dispatch('logar', null, { root: true }) // caso não tiver payload
     }
   }
 }
 
 const store = new Vuex.Store({
   state: {
-    usuario: 'Marcio Navarro'
+    usuario: 'Marcio'
+  },
+  getters: {
+    mensagemBoasVindas: state => `Olá ${state.usuario}`
+  },
+  actions: {
+    logar: ({ commit }, usuario) => {
+      commit('logar', usuario)
+    }
+  },
+  mutations: {
+    logar: (state, usuario) => {
+      state.usuario = usuario
+    }
   },
   modules: {
     contador: contadorModule,
