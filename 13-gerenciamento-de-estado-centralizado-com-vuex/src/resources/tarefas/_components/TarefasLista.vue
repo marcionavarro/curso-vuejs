@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import register from './../_store/register'
 import { createNamespacedHelpers } from 'vuex'
 import TarefaSalvar from './TarefaSalvar.vue'
 import TarefasListaIten from './TarefasListaIten.vue'
@@ -56,6 +57,7 @@ export default {
     ...mapGetters(['tarefasAFazer', 'tarefasConcluidas', 'totalDeTarefasConcluidas', 'boasVindas'])
   },
   created () {
+    register(this.$store)
     setTimeout(async () => {
       console.log('Usuário atual: ', this.boasVindas)
 
