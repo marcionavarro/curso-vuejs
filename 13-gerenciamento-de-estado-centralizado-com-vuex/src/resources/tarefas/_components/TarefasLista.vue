@@ -14,7 +14,8 @@
 
     <ul class="list-group mb-5" v-if="tarefasAFazer.length > 0">
       <TarefasListaIten v-for="tarefa in tarefasAFazer" :key="tarefa.id" :tarefa="tarefa"
-        @editar="selecionarTarefaParaEdicao" />
+        @editar="selecionarTarefaParaEdicao" @concluir="concluirTarefa({ tarefa: $event })"
+        @deletar="confirmarRemocaoTarefa" />
     </ul>
 
     <p v-else>Nenhuma tarefa a fazer.</p>
@@ -23,7 +24,8 @@
 
     <ul class="list-group" v-if="tarefasConcluidas.length > 0">
       <TarefasListaIten v-for="tarefa in tarefasConcluidas" :key="tarefa.id" :tarefa="tarefa"
-        @editar="selecionarTarefaParaEdicao" />
+        @editar="selecionarTarefaParaEdicao" @concluir="concluirTarefa({ tarefa: $event })"
+        @deletar="confirmarRemocaoTarefa" />
     </ul>
 
     <p v-else>Nenhuma tarefa foi concluida.</p>
@@ -58,23 +60,20 @@ export default {
   },
   created () {
     register(this.$store)
-    setTimeout(async () => {
-      console.log('Usuário atual: ', this.boasVindas)
-
-      await this.carregarTarefas()
-      console.log('Actions executadas!')
-
-      console.log('Usuário atual: ', this.boasVindas)
-    }, 1000)
-    console.log('Boas Vindas: ', this.boasVindas)
+    this.listarTarefas()
   },
   methods: {
-    ...mapActions({
-      carregarTarefas: 'listarTarefas',
-      listarTarefas: (dispatch, payload, options) => {
-        return dispatch('listarTarefas', payload, options)
+    ...mapActions([
+      'concluirTarefa',
+      'deletarTarefa',
+      'listarTarefas'
+    ]),
+    confirmarRemocaoTarefa (tarefa) {
+      const confirmar = window.confirm(`Deseja deletar a tarefa "${tarefa.titulo}"?`)
+      if (confirmar) {
+        this.deletarTarefa({ tarefa })
       }
-    }),
+    },
     exibirFormularioCriarTarefa (event) {
       if (this.tarefaSelecionada) {
         this.tarefaSelecionada = undefined

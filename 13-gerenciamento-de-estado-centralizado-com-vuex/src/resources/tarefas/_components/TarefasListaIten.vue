@@ -2,13 +2,13 @@
   <li class="list-group-item d-flex">
     <span>{{ tarefa.titulo }}</span>
     <span class="espacar"></span>
-    <button class="btn btn-sm me-4" :class="classeCSS" :title="textoBotaoConcluido">
+    <button class="btn btn-sm me-4" :class="classeCSS" :title="textoBotaoConcluido" @click="$emit('concluir', tarefa)">
       <i class="fa fa-check"></i>
     </button>
     <button class="btn btn-primary btn-sm me-1" title="Editar" @click="$emit('editar', tarefa)">
       <i class="fa fa-pencil-alt"></i>
     </button>
-    <button class="btn btn-danger btn-sm" title="Deletar">
+    <button class="btn btn-danger btn-sm" title="Deletar" @click="$emit('deletar', tarefa)">
       <i class="fa fa-trash"></i>
     </button>
   </li>
