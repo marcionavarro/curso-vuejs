@@ -30,7 +30,7 @@
 
     <p v-else>Nenhuma tarefa foi concluida.</p>
 
-    <TarefaSalvar v-if="exibirFormulario" :tarefa="tarefaSelecionada" />
+    <TarefaSalvar v-if="exibirFormulario" @salvar="salvarTarefa" />
 
   </div>
 </template>
@@ -50,12 +50,11 @@ export default {
   },
   data () {
     return {
-      exibirFormulario: false,
-      tarefaSelecionada: undefined
+      exibirFormulario: false
     }
   },
   computed: {
-    ...mapState(['tarefas']),
+    ...mapState(['tarefaSelecionada']),
     ...mapGetters(['tarefasAFazer', 'tarefasConcluidas', 'totalDeTarefasConcluidas', 'boasVindas'])
   },
   created () {
@@ -65,8 +64,12 @@ export default {
   methods: {
     ...mapActions([
       'concluirTarefa',
+      'criarTarefa',
+      'editarTarefa',
       'deletarTarefa',
-      'listarTarefas'
+      'listarTarefas',
+      'selecionarTarefa',
+      'resetarTarefaSelecionada'
     ]),
     confirmarRemocaoTarefa (tarefa) {
       const confirmar = window.confirm(`Deseja deletar a tarefa "${tarefa.titulo}"?`)
@@ -76,18 +79,29 @@ export default {
     },
     exibirFormularioCriarTarefa (event) {
       if (this.tarefaSelecionada) {
-        this.tarefaSelecionada = undefined
+        this.resetarTarefaSelecionada()
         return
       }
       this.exibirFormulario = !this.exibirFormulario
     },
+    async salvarTarefa (event) {
+      switch (event.operacao) {
+        case 'criar':
+          await this.criarTarefa({ tarefa: event.tarefa })
+          break
+        case 'editar':
+          await this.editarTarefa({ tarefa: event.tarefa })
+      }
+
+      this.resetar()
+    },
     selecionarTarefaParaEdicao (tarefa) {
       this.exibirFormulario = true
-      this.tarefaSelecionada = tarefa
+      this.selecionarTarefa({ tarefa })
     },
     resetar () {
       this.exibirFormulario = false
-      this.tarefaSelecionada = undefined
+      this.resetarTarefaSelecionada()
     }
   }
 }

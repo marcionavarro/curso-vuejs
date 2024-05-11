@@ -2,12 +2,22 @@
   "tarefas": [
     {
       "id": "1",
-      "titulo": "Aprender Vue",
-      "concluido": false
+      "titulo": "Aprender Vuetify",
+      "concluido": true
     },
     {
       "id": "3",
       "titulo": "Aprender Vuex",
+      "concluido": false
+    },
+    {
+      "id": "b982",
+      "titulo": "Aprender Vue",
+      "concluido": false
+    },
+    {
+      "id": "9b78",
+      "titulo": "Aprender VueRouter",
       "concluido": true
     }
   ]

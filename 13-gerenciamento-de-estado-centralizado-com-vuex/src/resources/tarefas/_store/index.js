@@ -3,7 +3,8 @@ import mutations from './mutations'
 import actions from './actions'
 
 const state = {
-  tarefas: []
+  tarefas: [],
+  tarefaSelecionada: undefined
 }
 
 export default {
