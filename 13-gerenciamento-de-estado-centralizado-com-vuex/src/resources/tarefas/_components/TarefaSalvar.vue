@@ -7,7 +7,11 @@
         <div :class="classeColuna">
           <div class="form-group">
             <label>Título</label>
-            <input type="text" class="form-control my-3" placeholder="Título da tarefa" v-model="tarefa.titulo">
+            <input type="text" :class="isTitleClass" class="form-control mt-3" id="titulo"
+              placeholder="Título da tarefa" v-model="tarefa.titulo" required>
+            <div :class="isTitleMessageClass">
+              {{ isTitleMessage }}
+            </div>
           </div>
         </div>
         <div class="col-sm-2" v-if="tarefaSelecionada">
@@ -48,6 +52,15 @@ export default {
       return this.tarefaSelecionada && this.tarefa.concluido
         ? 'btn-success'
         : 'btn-secondary'
+    },
+    isTitleClass () {
+      return this.tarefa.titulo ? 'is-valid' : 'is-invalid'
+    },
+    isTitleMessageClass () {
+      return this.tarefa.titulo ? 'valid-feedback mb-3' : 'invalid-feedback mb-3'
+    },
+    isTitleMessage () {
+      return this.tarefa.titulo ? 'Preenchido com sucesso' : 'Por favor, preencha o titulo.'
     }
   },
   watch: {
@@ -60,6 +73,8 @@ export default {
   },
   methods: {
     salvar (event) {
+      if (!this.tarefa.titulo) return
+
       const operacao = !this.tarefaSelecionada ? 'criar' : 'editar'
       this.$emit('salvar', { operacao, tarefa: this.tarefa })
     },

@@ -3,6 +3,7 @@ import mutations from './mutations'
 import actions from './actions'
 
 const state = {
+  erro: undefined,
   tarefas: [],
   tarefaSelecionada: undefined
 }
