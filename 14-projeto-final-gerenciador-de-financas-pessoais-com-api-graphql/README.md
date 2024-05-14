@@ -50,6 +50,10 @@ criptografia de senhas
 #### Rodar um deploy
 `prisma deploy`
 
-#### Comandos docker
+#### Rodar um generate
+`prisma generate`
+
+### Comandos docker
+`docker composer up -d`  
 `sudo systemctl stop docker.socket`
 
