@@ -53,6 +53,20 @@ criptografia de senhas
 #### Rodar um generate
 `prisma generate`
 
+### 13. Manipulando dados no PostgreSQL com Prisma Client
+
+#### Criar um package.json
+`npm init -y`
+
+#### instalar o prisma-client-lib
+`npm i -E prisma-client-lib@1.28.3`
+
+### 14. GraphQL Yoga camada para lógica de negócio
+
+`npm i -E graphql-yoga@1.17.4`
+
+
+
 ### Comandos docker
 `docker composer up -d`  
 `sudo systemctl stop docker.socket`
