@@ -62,13 +62,15 @@ criptografia de senhas
 `npm i -E prisma-client-lib@1.28.3`
 
 ### 14. GraphQL Yoga camada para lógica de negócio
-
 `npm i -E graphql-yoga@1.17.4`
+
+### 25. Instalando jsonwebtoken e bcryptjs
+`npm i -E bcryptjs@2.4.3 jsonwebtoken@8.5.0`
 
 
 
 ### Comandos docker
 `docker composer up -d`  
-`sudo systemctl stop docker.socket`
+`sudo systemctl stop docker.socket`  
 `docker compose up -d --build --no-deps api`
 
