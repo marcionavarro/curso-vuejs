@@ -70,4 +70,5 @@ criptografia de senhas
 ### Comandos docker
 `docker composer up -d`  
 `sudo systemctl stop docker.socket`
+`docker compose up -d --build --no-deps api`
 
