@@ -47,7 +47,7 @@ criptografia de senhas
 #### Criar um serviço
 `prisma init --endpoint http://localhost:4466`
 
-#### Rodar um deploy
+##### Rodar um deploy
 `prisma deploy`
 
 #### Rodar um generate
