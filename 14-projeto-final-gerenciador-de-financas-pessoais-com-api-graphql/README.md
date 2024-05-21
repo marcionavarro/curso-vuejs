@@ -67,6 +67,9 @@ criptografia de senhas
 ### 25. Instalando jsonwebtoken e bcryptjs
 `npm i -E bcryptjs@2.4.3 jsonwebtoken@8.5.0`
 
+### 34. Bônus validando data com Moment JS  
+`npm i -E moment@2.24.0`
+
 
 ### Comandos docker
 `docker composer up -d`  
@@ -171,6 +174,68 @@ mutation {
       name
     }
   	category {
+      description
+    }
+  }
+}
+``
+
+#### Filtro Avançado records
+
+``
+{
+  records (
+    where: {
+      AND: [
+        {
+          user: { id: "clwgr06re008f08715vk68o2g" }
+        },
+        {
+          type: DEBIT
+        },
+        {
+          OR: [
+            {
+              account: { id: "clwgr5e6l008n0871qkak5ll9" }
+            },
+            {
+              account: { id: "clwgr5e6l008n0871qkak5ll9" }
+            }
+          ]
+        },
+        {
+          OR: [
+            {
+              category: { id: "clwgr93dy009s0871qwd2wc3l" }
+            },
+            {
+              category: { id: "clwgr93dy009s0871qwd2wc3l" }
+            }
+          ]
+        },
+        {
+          date_gte: "2024-05-15T00:00.000Z",
+          date_lte: "2024-05-21T23:59.999Z",
+        }
+      ]
+    },
+    orderBy: date_ASC
+  ) {
+    id
+    date
+    description
+    amount
+    type
+    user {
+      id
+      name
+    }
+    category {
+      id
+      description
+    }
+    account {
+      id
       description
     }
   }
@@ -340,6 +405,32 @@ mutation {
       description
     }
     account {
+      description
+    }
+  }
+}
+``
+
+#### Filtrar records
+
+``
+{
+  records {
+    id
+    date
+    description
+    amount
+    type
+    user {
+      id
+      name
+    }
+    category {
+      id
+      description
+    }
+    account {
+      id
       description
     }
   }
