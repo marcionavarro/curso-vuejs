@@ -27,7 +27,7 @@ type Record {
   id: ID! @unique
   user: User!
   account: Account!
-  catagory: Category!
+  category: Category!
   amount: Float!
   type: Operation!
   date: DateTime!

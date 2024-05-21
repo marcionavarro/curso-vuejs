@@ -68,9 +68,283 @@ criptografia de senhas
 `npm i -E bcryptjs@2.4.3 jsonwebtoken@8.5.0`
 
 
-
 ### Comandos docker
 `docker composer up -d`  
 `sudo systemctl stop docker.socket`  
 `docker compose up -d --build --no-deps api`
+
+### Comandos Playground PrismaServer
+
+#### Criar Conta
+
+````
+mutation {
+  createAccount(data: {
+    description: "Cartão de Crédito"
+  }) {
+    id
+    user {
+      name
+    }
+  }
+}
+````
+
+#### Busca todas as Contas
+
+``
+{
+  accounts {
+    id
+    user {
+      name
+      email
+    }
+    description
+  }
+}
+``
+
+#### Busca Contas com Filtro
+
+``
+{
+  accounts (
+    where: {
+      OR: [
+        {
+          user: {
+            id: ""
+          }
+        },
+        {
+          user: null
+        }
+      ]
+    }
+  ) {
+    id
+    user {
+      name
+      email
+    }
+    description
+  }
+}
+``
+
+#### Criar Record
+
+``
+mutation {
+  createRecord 
+  (
+    data : {
+      amount: 50.00,
+      type: DEBIT,
+      date: "2024-05-21",
+      description: "Combustível",
+      tags: null,
+      note: null,
+      user: {
+        connect: {
+          id: ""
+        }
+      },
+      account: {
+        connect: {
+          id: ""
+        }
+      },
+      category: {
+        connect: {
+          id: ""
+        }
+      }
+    }
+  ) {
+    id
+    date
+    amount
+    type
+    user {
+      name
+    }
+  	category {
+      description
+    }
+  }
+}
+``
+
+### Comandos Playground GraphQL
+
+#### Signup
+
+``
+mutation {
+  signup (
+    email: "",
+    password: "",
+    name: ""
+  ) {
+    token
+    user {
+      id
+      name
+      email
+    }
+  }
+}
+``
+
+#### Login
+
+``
+mutation {
+  login(
+    email: ""
+    password: ""
+  ) {
+    token
+    user {
+      id
+      name
+      email
+    }
+  }
+}
+``
+
+#### Header Authorization (HTTP HEADERS)
+
+``
+{
+  "Authorization": "token"
+}
+``
+
+#### Usuário authenticado
+``
+{  
+  user {  
+    name,  
+    email  
+  }  
+}   
+``
+
+#### Criar Conta
+
+``
+mutation {
+  createAccount(description: "Dinheiro"){
+    id
+    user{
+      name
+      email
+    }
+    description
+  }
+}
+``
+
+#### Listas Contas
+
+``
+{
+  accounts {
+    id
+    description
+    user {
+      name
+      email
+    }
+  }
+}
+``
+
+#### Criar Categoria
+
+``
+mutation {
+  createCategory(
+    description: "Alimentação"
+    operation: DEBIT
+  ){
+    id
+    description
+    operation
+    user {
+      name
+      email
+    }
+  }
+}
+``
+
+#### Listar Categorias
+
+``
+  {
+  categories {
+    id
+    description
+    operation
+    user {
+      name
+    }
+  }
+}
+``
+
+#### Listar Categorias com Filtro
+
+``
+  {
+  categories(
+    operation: DEBIT
+  ) {
+    id
+    description
+    operation
+    user {
+      name
+    }
+  }
+}
+``
+
+#### Criar Record (Lançamentos)
+
+``
+mutation {
+  createRecord(
+    accountId: "clwgr5e6l008n0871qkak5ll9",
+    categoryId: "clwgr93dy009s0871qwd2wc3l",
+    amount: 45,
+    type: DEBIT,
+    date: "2024-05-21",
+    description: "Mercado",
+    tags: null
+  ) {
+    id
+    date
+    description
+    amount
+    type
+    user {
+      name
+    }
+    category {
+      description
+    }
+    account {
+      description
+    }
+  }
+}
+``
+
+
 
