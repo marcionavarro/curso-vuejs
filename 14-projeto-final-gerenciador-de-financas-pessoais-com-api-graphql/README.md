@@ -437,5 +437,35 @@ mutation {
 }
 ``
 
+#### Filtrar records com parametros
+
+``
+{
+  records (
+    month: "03-2024",
+    accountsIds: [],
+    categoriesIds: ["clwgr93dy009s0871qwd2wc3l"]
+  ) {
+    id
+    date
+    description
+    amount
+    type
+    user {
+      id
+      name
+    }
+    category {
+      id
+      description
+    }
+    account {
+      id
+      description
+    }
+  }
+}
+``
+
 
 

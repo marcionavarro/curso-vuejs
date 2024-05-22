@@ -7,8 +7,10 @@ services:
     ports:
       - "4000:4000"
     environment:
-      PRISMA_ENDPOINT: http://prisma:4466
+      PRISMA_ENDPOINT: http://prisma:4466/${PRISMA_SERVICE}/${PRISMA_STAGE}
       JWT_SECRET: ${JWT_SECRET}
+      PRISMA_SERVICE: ${PRISMA_SERVICE}
+      PRISMA_STAGE: ${PRISMA_STAGE}
     command: npm run dev
     volumes:
       - .:/usr/app
@@ -33,11 +35,28 @@ services:
   postgres:
     image: postgres:10.3
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma
     volumes:
       - postgres:/var/lib/postgresql/data
+  # pgAdmin:
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+  #     PGADMIN_DEFAULT_PASSWORD: "admin123"
+  #   ports:
+  #     - "8081:80"
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - pgNetwork
 
 volumes:
   postgres:
+
+    # networks:
+    #   pgNetwork:
+    #     driver: bridge
