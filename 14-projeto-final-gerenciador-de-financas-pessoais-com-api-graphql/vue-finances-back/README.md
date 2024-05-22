@@ -467,5 +467,12 @@ mutation {
 }
 ``
 
+#### Vericar o Total do Balanço
+``
+{
+  totalBalance(date: "2024-04-21")
+}
+``
+
 
 
