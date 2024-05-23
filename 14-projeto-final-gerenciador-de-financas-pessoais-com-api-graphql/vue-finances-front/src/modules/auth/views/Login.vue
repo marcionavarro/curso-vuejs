@@ -1,11 +1,11 @@
 <template>
   <v-container fill-height>
-    <v-layout>
+    <v-layout justify-center align-center>
 
-      <v-flex>
+      <v-col xs="12" sm="10" md="8" lg="6" xl="4">
         <v-card class="elevation-12">
 
-          <v-toolbar color="primary" dark>
+          <v-toolbar color="primary">
             <v-toolbar-title>
               Login
             </v-toolbar-title>
@@ -29,7 +29,7 @@
           </v-card-actions>
 
         </v-card>
-      </v-flex>
+      </v-col>
 
     </v-layout>
   </v-container>
