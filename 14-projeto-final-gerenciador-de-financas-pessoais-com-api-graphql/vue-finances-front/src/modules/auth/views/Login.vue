@@ -45,6 +45,7 @@
 
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators'
+import AuthService from './../services/auth-service'
 
 export default {
   name: 'Login',
@@ -114,11 +115,11 @@ export default {
     }
   },
   methods: {
-    log () {
-      console.log('Vuelidate: ', this.$v)
-    },
-    submit () {
-      console.log('User: ', this.user)
+    async submit () {
+      const authData = this.isLogin
+        ? await AuthService.login(this.user)
+        : await AuthService.signup(this.user)
+      console.log('AuthData: ', authData)
     }
   }
 }
