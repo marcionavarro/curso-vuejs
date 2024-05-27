@@ -9,6 +9,8 @@
             <v-toolbar-title>
               {{ texts.toolbar }}
             </v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-progress-circular v-show="isLoading" indeterminate></v-progress-circular>
           </v-toolbar>
 
           <v-card-text>
@@ -36,6 +38,13 @@
             </v-btn>
           </v-card-actions>
 
+          <v-snackbar v-model="showSnackbar" top>
+            {{ error }}
+            <v-btn color="pink" text icon @click="showSnackbar = false">
+              <v-icon>close</v-icon>
+            </v-btn>
+          </v-snackbar>
+
         </v-card>
       </v-col>
 
@@ -46,11 +55,15 @@
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators'
 import AuthService from './../services/auth-service'
+import { formatError } from '@/utils'
 
 export default {
   name: 'Login',
   data: () => ({
+    error: undefined,
     isLogin: true,
+    isLoading: false,
+    showSnackbar: false,
     user: {
       name: '',
       email: '',
@@ -116,10 +129,20 @@ export default {
   },
   methods: {
     async submit () {
-      const authData = this.isLogin
-        ? await AuthService.login(this.user)
-        : await AuthService.signup(this.user)
-      console.log('AuthData: ', authData)
+      this.isLoading = true
+      try {
+        // await new Promise(resolve => setTimeout(resolve, 3000))
+        const authData = this.isLogin
+          ? await AuthService.login(this.user)
+          : await AuthService.signup(this.user)
+        console.log('AuthData: ', authData)
+      } catch (error) {
+        console.log(error)
+        this.error = formatError(error.message)
+        this.showSnackbar = true
+      } finally {
+        this.isLoading = false
+      }
     }
   }
 }
