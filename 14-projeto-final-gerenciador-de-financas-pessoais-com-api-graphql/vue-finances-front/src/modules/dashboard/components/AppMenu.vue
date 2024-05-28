@@ -25,13 +25,15 @@
 
     <v-list class="pt-0" dense>
       <v-divider></v-divider>
-      <v-list-item v-for="item in items" :key="item.title" :to="item.url" :exact="item.exact" active-class="teste"
-        @click.stop="$emit('input', false)">
+      <v-list-item v-for="item in items" :key="item.title" :to="item.url" :exact="item.exact"
+        :class="{ 'v-list-item--active': isActive(item.url) }" @click.stop="$emit('input', false)">
         <v-list-item-action>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-action>
 
-        <v-list-item-title>{{ item.title }}</v-list-item-title>
+        <v-list-item-content>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item-content>
       </v-list-item>
     </v-list>
 
@@ -53,8 +55,22 @@ export default {
     mini: false,
     user: {}
   }),
+  computed: {
+    isActive () {
+      return (url) => {
+        return this.$route.path === url
+      }
+    }
+  },
   async created () {
     this.user = await AuthService.user()
   }
 }
 </script>
+
+<style>
+.v-list-item--active {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+</style>
