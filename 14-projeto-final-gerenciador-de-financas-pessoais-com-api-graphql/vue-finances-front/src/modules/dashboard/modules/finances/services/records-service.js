@@ -1,6 +1,6 @@
 import apollo from '@/plugins/apollo'
 
-import RecordsQuery from './../graphql/RecordsQuery.gql'
+import RecordsQuery from './../graphql/Records.gql'
 
 const records = async variables => {
   const response = await apollo.query({
