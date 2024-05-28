@@ -1,9 +1,23 @@
 <template>
-  <h1>Bem vindo ao Dashboard</h1>
+  <div>
+    <AppToolbar v-model="drawer" />
+    <AppMenu v-model="drawer" />
+  </div>
 </template>
 
 <script>
+import AppToolbar from './AppToolbar.vue'
+import AppMenu from './AppMenu.vue'
+
 export default {
-  name: 'AppLayout'
+  name: 'AppLayout',
+  components: {
+    AppMenu,
+    AppToolbar
+
+  },
+  data: () => ({
+    drawer: false
+  })
 }
 </script>
