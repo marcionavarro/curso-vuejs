@@ -1,9 +1,15 @@
 <template>
   <div>
-    <ToolbarByMonth class="mt-5 mb-2" format="MM-YYYY" @month="changeMonth" />
+    <ToolbarByMonth class="mt-5 mb-2" format="MM-YYYY" @month="changeMonth" :color="toolbarColor" />
 
     <v-card>
-      <v-list two-line subheader>
+
+      <v-card-text class="text-sm-center" v-if="mappedRecordsLength === 0">
+        <v-icon size="100" color="grey">assignment</v-icon>
+        <p class="font-weight-light subheading grey--text">Nenhum lançamento no período</p>
+      </v-card-text>
+
+      <v-list two-line subheader v-else>
         <template v-for="(records, date, index) in mappedRecords">
           <v-subheader :key="date">{{ date }}</v-subheader>
           <RecordsListItem v-for="record in records" :key="record.id" :record="record" />
@@ -19,6 +25,7 @@
           </h3>
         </v-flex>
       </v-footer>
+
     </v-card>
   </div>
 </template>
@@ -52,16 +59,22 @@ export default {
         return moment(record[dateKey]).format('DD/MM/YYYY')
       })
     },
+    mappedRecordsLength () {
+      return Object.keys(this.mappedRecords).length
+    },
     totalAmount () {
       return this.records.reduce((sum, record) => sum + record.amount, 0)
+    },
+    toolbarColor () {
+      return this.totalAmount < 0 ? 'error' : 'primary'
     }
-  },
-  async created () {
-    this.records = await RecordsService.records()
   },
   methods: {
     changeMonth (month) {
-      console.log('Month: ', month)
+      this.setRecords(month)
+    },
+    async setRecords (month) {
+      this.records = await RecordsService.records({ month })
     },
     showDivider (index, object) {
       return index < Object.keys(object).length - 1
