@@ -1,7 +1,6 @@
 <template>
   <v-toolbar :color="color">
     <v-layout align-center>
-
       <v-flex xs1>
         <div class="text-sm-left">
           <v-btn icon @click="decrement">
@@ -23,7 +22,6 @@
           </v-btn>
         </div>
       </v-flex>
-
     </v-layout>
   </v-toolbar>
 </template>
@@ -35,11 +33,12 @@ import moment from 'moment'
 export default {
   name: 'ToolbarByMonth',
   props: {
-    color: String,
-    format: String
+    color: { type: String, default: '' },
+    format: { type: String, default: '' },
+    month: { type: String, default: '' }
   },
   data: () => ({
-    date: moment()
+    date: undefined
   }),
   computed: {
     currentMonth () {
@@ -47,6 +46,7 @@ export default {
     }
   },
   created () {
+    this.setCurrentMonth()
     this.emit()
   },
   methods: {
@@ -60,6 +60,9 @@ export default {
     increment () {
       this.date = this.date.clone().add(1, 'month')
       this.emit()
+    },
+    setCurrentMonth () {
+      this.date = this.month ? moment(this.month, this.format) : moment()
     }
   }
 }

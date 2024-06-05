@@ -1,6 +1,5 @@
 <template>
   <v-list-item>
-
     <v-list-item-avatar>
       <v-icon :class="[recordIconColor(record.type), 'lighten-1 white--text']">
         {{ recordIcon(record.type) }}
@@ -15,7 +14,6 @@
     <v-list-item-action>
       <span :class="amountColor(record.amount)">{{ formatCurrency(record.amount) }}</span>
     </v-list-item-action>
-
   </v-list-item>
 </template>
 
@@ -30,7 +28,7 @@ export default {
     formatCurrencyMixin
   ],
   props: {
-    record: Object
+    record: { type: Object, default: null }
   },
   methods: {
     recordIcon (type) {
