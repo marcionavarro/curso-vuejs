@@ -26,7 +26,7 @@ export default {
       this.$router.push({
         name: 'recordsAdd',
         query: { type }
-      })
+      }).catch(err => err)
     }
   }
 }
