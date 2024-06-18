@@ -2,20 +2,38 @@
   <v-container text-sm-center>
     <v-layout row wrap>
       <v-flex xs12 sm6 md4 lg4>
-        <p>Amount</p>
+        <NumericDisplay :color="color" />
       </v-flex>
       <v-flex xs12 sm6 md8 lg8>
         <v-card>
           <v-card-text>
             <v-form>
+              <v-dialog ref="dateDialog" :return-value.sync="record.date" v-model="showDateDialog" persistent
+                width="290px">
+                <template v-slot:activator="{ on }">
+                  <v-text-field name="date" label="Vencimento" prepend-icon="event" type="text" readonly
+                    :value="formatedDate" v-on="on"></v-text-field>
+                </template>
+
+                <v-date-picker :color="color" locale="pt-br" scrollable v-model="dateDialogValue">
+                  <v-spacer></v-spacer>
+                  <v-btn text :color="color" @click="cancelDateDialog">Cancelar</v-btn>
+                  <v-btn text :color="color" @click="$refs.dateDialog.save(dateDialogValue)">Ok</v-btn>
+                </v-date-picker>
+              </v-dialog>
+
               <v-select name="account" label="Conta" prepend-icon="account_balance" :items="accounts"
                 item-text="description" item-value="id" v-model="$v.record.accountId.$model"></v-select>
+
               <v-select name="category" label="Categoria" prepend-icon="class" :items="categories"
                 item-text="description" item-value="id" v-model="$v.record.categoryId.$model"></v-select>
+
               <v-text-field name="description" label="Descrição" prepend-icon="description" type="text"
                 v-model.trim="$v.record.description.$model"></v-text-field>
+
               <v-text-field v-show="showTagsInput" name="tags" label="Tags (separadas por virgula)" prepend-icon="label"
                 type="text" v-model.trim="record.tags"></v-text-field>
+
               <v-text-field v-show="showNoteInput" name="note" label="Observação" prepend-icon="note" type="text"
                 v-model.trim="record.note"></v-text-field>
             </v-form>
@@ -59,13 +77,18 @@ import { mapActions } from 'vuex'
 
 import AccountsService from '../services/accounts-service'
 import CategoriesService from '../services/categories-service'
+import NumericDisplay from '../components/NumericDisplay.vue'
 
 export default {
   name: 'RecordsAdd',
+  components: {
+    NumericDisplay
+  },
   data () {
     return {
       accounts: [],
       categories: [],
+      dateDialogValue: moment().format('YYYY-MM-DD'),
       record: {
         type: this.$route.query.type.toUpperCase(),
         amount: 0,
@@ -76,6 +99,7 @@ export default {
         tags: '',
         note: ''
       },
+      showDateDialog: false,
       showTagsInput: false,
       showNoteInput: false
     }
@@ -100,6 +124,9 @@ export default {
         default:
           return 'primary'
       }
+    },
+    formatedDate () {
+      return moment(this.record.date).format('DD/MM/YYYY')
     }
   },
   async created () {
@@ -116,6 +143,10 @@ export default {
   },
   methods: {
     ...mapActions(['setTitle']),
+    cancelDateDialog () {
+      this.showDateDialog = false
+      this.dateDialogValue = this.record.date
+    },
     changeTitle (recordType) {
       let title
       switch (recordType) {
