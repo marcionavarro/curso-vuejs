@@ -2,7 +2,7 @@
   <v-container text-sm-center>
     <v-layout row wrap>
       <v-flex xs12 sm6 md4 lg4>
-        <NumericDisplay :color="color" />
+        <NumericDisplay :color="color" v-model="$v.record.amount.$model" />
       </v-flex>
       <v-flex xs12 sm6 md8 lg8>
         <v-card>
@@ -61,7 +61,7 @@
           <v-icon>close</v-icon>
         </v-btn>
 
-        <v-btn :color="color" large fab class="mt-4" @click="submit">
+        <v-btn :color="color" large fab class="mt-4" @click="submit" :disabled="$v.$invalid">
           <v-icon>check</v-icon>
         </v-btn>
 
@@ -138,6 +138,7 @@ export default {
     const { type } = to.query
     this.changeTitle(type)
     this.record.type = type.toUpperCase()
+    this.record.categoryId = ''
     this.categories = await CategoriesService.categories({ operation: type })
     next()
   },
