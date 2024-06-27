@@ -7,9 +7,7 @@
 
     <v-card>
       <v-card-text class="text-sm-center" v-if="mappedRecordsLength === 0">
-        <v-icon size="100" color="grey">
-          assignment
-        </v-icon>
+        <v-icon size="100" color="grey"> assignment </v-icon>
         <p class="font-weight-light subheading grey--text">
           Nenhum lançamento no período
         </p>
@@ -40,8 +38,9 @@
 </template>
 
 <script>
-
 import moment from 'moment'
+import { Subject } from 'rxjs'
+import { mergeMap } from 'rxjs/operators'
 import { groupBy } from '@/utils'
 import amountColorMixin from './../mixins/amount-color'
 import formatCurrencyMixin from '@/mixins/format-currency'
@@ -57,17 +56,15 @@ export default {
     ToolbarByMonth,
     TotalBalance
   },
-  mixins: [
-    amountColorMixin,
-    formatCurrencyMixin
-  ],
+  mixins: [amountColorMixin, formatCurrencyMixin],
   data: () => ({
-    records: []
+    records: [],
+    monthSubject$: new Subject()
   }),
   computed: {
     mappedRecords () {
       return groupBy(this.records, 'date', (record, dateKey) => {
-        return moment(record[dateKey]).format('DD/MM/YYYY')
+        return moment(record[dateKey].substr(0, 10)).format('DD/MM/YYYY')
       })
     },
     mappedRecordsLength () {
@@ -80,16 +77,26 @@ export default {
       return this.totalAmount < 0 ? 'error' : 'primary'
     }
   },
+  created () {
+    this.setRecords()
+  },
   methods: {
     changeMonth (month) {
-      this.$router.push({
-        path: this.$route.path,
-        query: { month }
-      }).catch(err => err)
-      this.setRecords(month)
+      this.$router
+        .push({
+          path: this.$route.path,
+          query: { month }
+        })
+        .catch((err) => err)
+      this.monthSubject$.next({ month })
     },
-    async setRecords (month) {
-      this.records = await RecordsService.records({ month })
+    setRecords () {
+      console.log('Suscribing...')
+
+      this.monthSubject$
+        .pipe(
+          mergeMap(variables => RecordsService.records(variables))
+        ).subscribe(records => (this.records = records))
     },
     showDivider (index, object) {
       return index < Object.keys(object).length - 1
