@@ -82,7 +82,7 @@
         </v-btn>
 
         <v-dialog v-model="showAccountCategoryDialog" max-width="350px">
-          <AccountCategoryAdd v-if="showAccountCategoryDialog" :entity="entity" @close="showAccountCategoryDialog = false" />
+          <AccountCategoryAdd v-if="showAccountCategoryDialog" :entity="entity" @close="showAccountCategoryDialog = false" @saved="accountCategorySaved" />
         </v-dialog>
 
       </v-flex>
@@ -94,6 +94,8 @@
 import moment from 'moment'
 import { decimal, minLength, required } from 'vuelidate/lib/validators'
 import { mapActions } from 'vuex'
+import { Subject } from 'rxjs'
+import { distinctUntilChanged, mergeMap } from 'rxjs/operators'
 
 import AccountsService from '../services/accounts-service'
 import CategoriesService from '../services/categories-service'
@@ -113,6 +115,7 @@ export default {
       categories: [],
       dateDialogValue: moment().format('YYYY-MM-DD'),
       entity: '',
+      operationSubject$: new Subject(),
       record: {
         type: this.$route.query.type.toUpperCase(),
         amount: 0,
@@ -156,19 +159,30 @@ export default {
   },
   async created () {
     this.changeTitle(this.$route.query.type)
-    this.accounts = await AccountsService.accounts()
-    this.categories = await CategoriesService.categories({ operation: this.$route.query.type })
+    AccountsService.accounts().subscribe(accounts => (this.accounts = accounts))
+
+    this.operationSubject$
+      .pipe(
+        distinctUntilChanged(),
+        mergeMap(operation => CategoriesService.categories({ operation }))
+      ).subscribe(categories => (this.categories = categories))
+
+    this.operationSubject$.next(this.$route.query.type)
   },
   async beforeRouteUpdate (to, from, next) {
     const { type } = to.query
     this.changeTitle(type)
     this.record.type = type.toUpperCase()
     this.record.categoryId = ''
-    this.categories = await CategoriesService.categories({ operation: type })
+    this.operationSubject$.next(type)
     next()
   },
   methods: {
     ...mapActions(['setTitle']),
+    accountCategorySaved (item) {
+      this.showAccountCategoryDialog = false
+      this.record[`${this.entity}Id`] = item.id
+    },
     add (entity) {
       this.showAccountCategoryDialog = true
       this.entity = entity

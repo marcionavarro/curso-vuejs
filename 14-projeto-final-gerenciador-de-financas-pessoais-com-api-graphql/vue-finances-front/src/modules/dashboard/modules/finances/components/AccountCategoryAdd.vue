@@ -21,21 +21,26 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
 
+import AccountsService from '../services/accounts-service'
+import CategoriesService from '../services/categories-service'
+
 export default {
   name: 'AccountCategoryAdd',
   props: {
     entity: String
   },
-  data: () => ({
-    item: {
-      description: '',
-      operation: ''
-    },
-    operations: [
-      { description: 'Receita', value: 'CREDIT' },
-      { description: 'Despesa', value: 'DEBIT' }
-    ]
-  }),
+  data () {
+    return {
+      item: {
+        description: '',
+        operation: this.$route.query.type.toUpperCase()
+      },
+      operations: [
+        { description: 'Receita', value: 'CREDIT' },
+        { description: 'Despesa', value: 'DEBIT' }
+      ]
+    }
+  },
   validations () {
     const validations = {
       item: {
@@ -63,8 +68,20 @@ export default {
     }
   },
   methods: {
-    save (e) {
-      console.log('Item: ', this.item)
+    async save (e) {
+      let promise
+
+      switch (this.entity) {
+        case 'account':
+          promise = AccountsService.createAccount(this.item)
+          break
+
+        case 'category':
+          promise = CategoriesService.createCategory(this.item)
+      }
+
+      const item = await promise
+      this.$emit('saved', item)
     }
   }
 }

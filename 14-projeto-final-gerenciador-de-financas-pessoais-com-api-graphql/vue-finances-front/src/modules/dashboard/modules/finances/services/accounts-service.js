@@ -1,13 +1,18 @@
 import apollo from '@/plugins/apollo'
+import { from } from 'rxjs'
+import { map } from 'rxjs/operators'
 
 import AccountsQuery from './../graphql/Accounts.gql'
 import AccountCreateMutation from './../graphql/AccountCreate.gql'
 
-const accounts = async () => {
-  const response = await apollo.query({
+const accounts = () => {
+  const queryRef = apollo.watchQuery({
     query: AccountsQuery
   })
-  return response.data.accounts
+  return from(queryRef)
+    .pipe(
+      map(res => res.data.accounts)
+    )
 }
 
 const createAccount = async variables => {
@@ -17,7 +22,7 @@ const createAccount = async variables => {
     update: (proxy, { data: { createAccount } }) => {
       try {
         const data = proxy.readQuery({
-          AccountsQuery
+          query: AccountsQuery
         })
 
         data.accounts = [...data.accounts, createAccount]
