@@ -1,3 +1,14 @@
 {
-  "tarefas": []
+  "tarefas": [
+    {
+      "id": "ddc5",
+      "titulo": "Estudar LifeCycleHooks",
+      "concluido": false
+    },
+    {
+      "id": "e105",
+      "titulo": "Estudar Vuex",
+      "concluido": true
+    }
+  ]
 }

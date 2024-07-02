@@ -23,10 +23,26 @@
               </v-dialog>
 
               <v-select name="account" label="Conta" prepend-icon="account_balance" :items="accounts"
-                item-text="description" item-value="id" v-model="$v.record.accountId.$model"></v-select>
+                item-text="description" item-value="id" v-model="$v.record.accountId.$model">
+                <v-list-item slot="prepend-item" ripple @click="add('account')">
+                  <v-list-action>
+                    <v-icon class="mr-3">add</v-icon>
+                  </v-list-action>
+                  <v-list-title>Conta</v-list-title>
+                </v-list-item>
+                <v-divider slot="prepend-itme" class="mt-2"></v-divider>
+              </v-select>
 
               <v-select name="category" label="Categoria" prepend-icon="class" :items="categories"
-                item-text="description" item-value="id" v-model="$v.record.categoryId.$model"></v-select>
+                item-text="description" item-value="id" v-model="$v.record.categoryId.$model">
+                <v-list-item slot="prepend-item" ripple @click="add('category')">
+                  <v-list-action>
+                    <v-icon class="mr-3">add</v-icon>
+                  </v-list-action>
+                  <v-list-title>Categoria</v-list-title>
+                </v-list-item>
+                <v-divider slot="prepend-item" class="mt-2"></v-divider>
+              </v-select>
 
               <v-text-field name="description" label="Descrição" prepend-icon="description" type="text"
                 v-model.trim="$v.record.description.$model"></v-text-field>
@@ -65,6 +81,12 @@
           <v-icon>check</v-icon>
         </v-btn>
 
+        <v-dialog v-model="showAccountCategoryDialog" max-width="350px">
+          <v-card>
+            <v-card-title>Account or Category</v-card-title>
+          </v-card>
+        </v-dialog>
+
       </v-flex>
     </v-layout>
   </v-container>
@@ -90,6 +112,7 @@ export default {
       accounts: [],
       categories: [],
       dateDialogValue: moment().format('YYYY-MM-DD'),
+      entity: '',
       record: {
         type: this.$route.query.type.toUpperCase(),
         amount: 0,
@@ -100,6 +123,7 @@ export default {
         tags: '',
         note: ''
       },
+      showAccountCategoryDialog: false,
       showDateDialog: false,
       showTagsInput: false,
       showNoteInput: false
@@ -145,6 +169,10 @@ export default {
   },
   methods: {
     ...mapActions(['setTitle']),
+    add (entity) {
+      this.showAccountCategoryDialog = true
+      this.entity = entity
+    },
     cancelDateDialog () {
       this.showDateDialog = false
       this.dateDialogValue = this.record.date
