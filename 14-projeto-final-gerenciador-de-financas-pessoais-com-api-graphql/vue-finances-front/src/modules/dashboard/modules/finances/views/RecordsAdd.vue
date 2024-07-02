@@ -25,10 +25,10 @@
               <v-select name="account" label="Conta" prepend-icon="account_balance" :items="accounts"
                 item-text="description" item-value="id" v-model="$v.record.accountId.$model">
                 <v-list-item slot="prepend-item" ripple @click="add('account')">
-                  <v-list-action>
+                  <v-list-item-action>
                     <v-icon class="mr-3">add</v-icon>
-                  </v-list-action>
-                  <v-list-title>Conta</v-list-title>
+                  </v-list-item-action>
+                  <v-list-item-title>Conta</v-list-item-title>
                 </v-list-item>
                 <v-divider slot="prepend-itme" class="mt-2"></v-divider>
               </v-select>
@@ -36,10 +36,10 @@
               <v-select name="category" label="Categoria" prepend-icon="class" :items="categories"
                 item-text="description" item-value="id" v-model="$v.record.categoryId.$model">
                 <v-list-item slot="prepend-item" ripple @click="add('category')">
-                  <v-list-action>
+                  <v-list-item-action>
                     <v-icon class="mr-3">add</v-icon>
-                  </v-list-action>
-                  <v-list-title>Categoria</v-list-title>
+                  </v-list-item-action>
+                  <v-list-item-title>Categoria</v-list-item-title>
                 </v-list-item>
                 <v-divider slot="prepend-item" class="mt-2"></v-divider>
               </v-select>
@@ -82,9 +82,7 @@
         </v-btn>
 
         <v-dialog v-model="showAccountCategoryDialog" max-width="350px">
-          <v-card>
-            <v-card-title>Account or Category</v-card-title>
-          </v-card>
+          <AccountCategoryAdd v-if="showAccountCategoryDialog" :entity="entity" @close="showAccountCategoryDialog = false" />
         </v-dialog>
 
       </v-flex>
@@ -99,12 +97,14 @@ import { mapActions } from 'vuex'
 
 import AccountsService from '../services/accounts-service'
 import CategoriesService from '../services/categories-service'
+import AccountCategoryAdd from '../components/AccountCategoryAdd.vue'
 import NumericDisplay from '../components/NumericDisplay.vue'
 import RecordsService from '../services/records-service'
 
 export default {
   name: 'RecordsAdd',
   components: {
+    AccountCategoryAdd,
     NumericDisplay
   },
   data () {
