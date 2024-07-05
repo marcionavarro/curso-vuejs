@@ -59,7 +59,8 @@ export default {
   mixins: [amountColorMixin, formatCurrencyMixin],
   data: () => ({
     records: [],
-    monthSubject$: new Subject()
+    monthSubject$: new Subject(),
+    subscriptions: []
   }),
   computed: {
     mappedRecords () {
@@ -80,6 +81,9 @@ export default {
   created () {
     this.setRecords()
   },
+  destroyed () {
+    this.subscriptions.forEach(s => s.unsubscriptions())
+  },
   methods: {
     changeMonth (month) {
       this.$router
@@ -93,10 +97,12 @@ export default {
     setRecords () {
       console.log('Suscribing...')
 
-      this.monthSubject$
-        .pipe(
-          mergeMap(variables => RecordsService.records(variables))
-        ).subscribe(records => (this.records = records))
+      this.subscriptions.push(
+        this.monthSubject$
+          .pipe(
+            mergeMap(variables => RecordsService.records(variables))
+          ).subscribe(records => (this.records = records))
+      )
     },
     showDivider (index, object) {
       return index < Object.keys(object).length - 1
