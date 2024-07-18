@@ -1,7 +1,8 @@
-import RecordsHome from './../views/RecordsHome.vue'
-import RecordsAdd from './../views/RecordsAdd.vue'
-// const RecordsHome = () => import('./../views/RecordsHome.vue')
-// const RecordsAdd = () => import('./../views/RecordsAdd.vue')
+/* import RecordsHome from './../views/RecordsHome.vue'
+import RecordsAdd from './../views/RecordsAdd.vue' */
+const RecordsHome = () => import('./../views/RecordsHome.vue')
+const RecordsAdd = () => import('./../views/RecordsAdd.vue')
+const ReportsHome = () => import('./../views/ReportsHome.vue')
 
 export default [
   {
@@ -12,8 +13,13 @@ export default [
   },
   {
     path: 'records/add',
-    name: 'recordsAdd',
+    component: RecordsAdd,
     meta: { requiresAuth: true },
-    component: RecordsAdd
+    name: 'recordsAdd'
+  },
+  {
+    path: 'reports',
+    component: ReportsHome,
+    meta: { requiresAuth: true }
   }
 ]

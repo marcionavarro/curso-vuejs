@@ -51,7 +51,8 @@ export default {
     items: [
       { title: 'Home', icon: 'dashboard', url: '/dashboard', exact: true },
       { title: 'Receita', icon: 'add', url: '/dashboard/records/add?type=credit', exact: true },
-      { title: 'Despesa', icon: 'remove', url: '/dashboard/records/add?type=debit', exact: true }
+      { title: 'Despesa', icon: 'remove', url: '/dashboard/records/add?type=debit', exact: true },
+      { title: 'Relatórios', icon: 'assessment', url: '/dashboard/reports', exact: true }
     ],
     mini: false,
     user: {}
@@ -71,7 +72,7 @@ export default {
 
 <style>
 .v-list-item--active {
-  background-color: transparent !important;
-  color: inherit !important;
+  /*  background-color: transparent !important;
+  color: inherit !important; */
 }
 </style>

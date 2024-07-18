@@ -3,7 +3,7 @@ import mutations from './mutations'
 
 const state = {
   filters: undefined,
-  isFilterring: false,
+  isFiltering: false,
   month: undefined
 }
 
