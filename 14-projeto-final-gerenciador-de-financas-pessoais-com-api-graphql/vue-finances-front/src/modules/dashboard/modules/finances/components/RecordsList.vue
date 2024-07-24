@@ -3,7 +3,7 @@
     <TotalBalance class="mb-2" />
 
     <ToolbarByMonth class="mt-5 mb-2" format="MM-YYYY" @month="changeMonth" :color="toolbarColor"
-      :month="$route.query.month" :showSlot="true">
+      :month="month || $route.query.month" :showSlot="true">
       <RecordsFilter @filter="filter" />
     </ToolbarByMonth>
 
