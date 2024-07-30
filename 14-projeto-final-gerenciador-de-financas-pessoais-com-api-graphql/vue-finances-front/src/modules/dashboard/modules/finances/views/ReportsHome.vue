@@ -33,6 +33,7 @@ export default {
   },
   data: () => ({
     chartIncomesExpenses: undefined,
+    chartCategoryExpenses: undefined,
     charts: [
       { title: 'Receitas vs Despesas', refId: 'chartIncomesExpenses' },
       { title: 'Receitas por Categorias', refId: 'chartCategoryExpenses' }
@@ -71,6 +72,7 @@ export default {
       return new Chart(ctx, options)
     },
     setCharts () {
+      // receitas e despesas
       const chartIncomesExpensesConfigs = generateChartConfigs({
         type: 'bar',
         items: this.records,
@@ -89,6 +91,30 @@ export default {
       } else {
         this.chartIncomesExpenses =
           this.createChart('chartIncomesExpenses', chartIncomesExpensesConfigs)
+      }
+
+      // despesas por categoria
+      // chartCategoryExpenses
+      const chartCategoryExpensesConfigs = generateChartConfigs({
+        type: 'doughnut',
+        items: this.records.filter(r => r.type === 'DEBIT'),
+        keyToGroup: 'category.description',
+        keyOfValue: 'amount',
+        backgroundColors: [
+          this.$vuetify.theme.themes.dark.accent,
+          this.$vuetify.theme.themes.dark.warning,
+          this.$vuetify.theme.themes.dark.info,
+          this.$vuetify.theme.themes.dark.success
+        ]
+      })
+
+      if (this.chartCategoryExpenses) {
+        this.chartCategoryExpenses.data.datasets = chartCategoryExpensesConfigs.data.datasets
+        this.chartCategoryExpenses.data.labels = chartCategoryExpensesConfigs.data.labels
+        this.chartCategoryExpenses.update()
+      } else {
+        this.chartCategoryExpenses =
+          this.createChart('chartCategoryExpenses', chartCategoryExpensesConfigs)
       }
     },
     setRecords () {
