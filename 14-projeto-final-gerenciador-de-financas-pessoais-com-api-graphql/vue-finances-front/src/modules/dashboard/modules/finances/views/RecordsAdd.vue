@@ -185,7 +185,7 @@ export default {
     next()
   },
   destroyed () {
-    this.subscriptions.forEach(s => s.unsubscribe())
+    this.subscriptions.forEach((s) => s.unsubscribe())
   },
   methods: {
     ...mapActions(['setTitle']),

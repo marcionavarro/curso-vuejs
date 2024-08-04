@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12>
-      <ToolbarByMonth format="MM-YYYY" color="primary" :month="month || $route.query.month" @month="changeMonth" />
+      <ToolbarByMonth format="MM-YYYY" :color="color" :month="month || $route.query.month" @month="changeMonth" />
     </v-flex>
 
     <v-flex v-for="chart in charts" :key="chart.title" xs12 sm6 md6 lg6 xl6>
@@ -43,14 +43,22 @@ export default {
     subscriptions: []
   }),
   computed: {
-    ...mapState('finances', ['month'])
+    ...mapState('finances', ['month']),
+    RecordsSum () {
+      return this.records.reduce((acc, record) => acc + record.amount, 0)
+    },
+    color () {
+      return this.RecordsSum < 0
+        ? 'error'
+        : 'primary'
+    }
   },
   created () {
     this.setTitle({ title: 'Relatórios' })
     this.setRecords()
   },
   destroyed () {
-    this.subscriptions.forEach(s => s.unsubscribe)
+    this.subscriptions.forEach((s) => s.unsubscribe)
   },
   methods: {
     ...mapActions(['setTitle']),
@@ -63,17 +71,26 @@ export default {
       this.setMonth({ month })
       this.monthSubject$.next(month)
     },
-    createChart (chartId, options) {
+    updateOrCreateChart (chartId, options) {
+      if (this[chartId]) {
+        this[chartId].data.datasets = options.data.datasets
+        if (options.data.labels) {
+          this[chartId].data.labels = options.data.labels
+        }
+        this[chartId].update()
+        return this[chartId]
+      }
+
       const ref = Array.isArray(this.$refs[chartId])
         ? this.$refs[chartId][0]
         : this.$refs[chartId]
 
       const ctx = ref.getContext('2d')
-      return new Chart(ctx, options)
+      this[chartId] = new Chart(ctx, options)
+      return this[chartId]
     },
     setCharts () {
-      // receitas e despesas
-      const chartIncomesExpensesConfigs = generateChartConfigs({
+      this.updateOrCreateChart('chartIncomesExpenses', generateChartConfigs({
         type: 'bar',
         items: this.records,
         keyToGroup: 'type',
@@ -83,39 +100,14 @@ export default {
           this.$vuetify.theme.themes.dark.error,
           this.$vuetify.theme.themes.dark.primary
         ]
-      })
+      }))
 
-      if (this.chartIncomesExpenses) {
-        this.chartIncomesExpenses.data.datasets = chartIncomesExpensesConfigs.data.datasets
-        this.chartIncomesExpenses.update()
-      } else {
-        this.chartIncomesExpenses =
-          this.createChart('chartIncomesExpenses', chartIncomesExpensesConfigs)
-      }
-
-      // despesas por categoria
-      // chartCategoryExpenses
-      const chartCategoryExpensesConfigs = generateChartConfigs({
+      this.updateOrCreateChart('chartCategoryExpenses', generateChartConfigs({
         type: 'doughnut',
         items: this.records.filter(r => r.type === 'DEBIT'),
         keyToGroup: 'category.description',
-        keyOfValue: 'amount',
-        backgroundColors: [
-          this.$vuetify.theme.themes.dark.accent,
-          this.$vuetify.theme.themes.dark.warning,
-          this.$vuetify.theme.themes.dark.info,
-          this.$vuetify.theme.themes.dark.success
-        ]
-      })
-
-      if (this.chartCategoryExpenses) {
-        this.chartCategoryExpenses.data.datasets = chartCategoryExpensesConfigs.data.datasets
-        this.chartCategoryExpenses.data.labels = chartCategoryExpensesConfigs.data.labels
-        this.chartCategoryExpenses.update()
-      } else {
-        this.chartCategoryExpenses =
-          this.createChart('chartCategoryExpenses', chartCategoryExpensesConfigs)
-      }
+        keyOfValue: 'amount'
+      }))
     },
     setRecords () {
       this.subscriptions.push(

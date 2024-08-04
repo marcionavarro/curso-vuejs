@@ -90,7 +90,7 @@ export default {
     this.setRecords()
   },
   destroyed () {
-    this.subscriptions.forEach(s => s.unsubscriptions())
+    this.subscriptions.forEach((s) => s.unsubscribe())
   },
   methods: {
     ...mapActions(['setMonth']),
