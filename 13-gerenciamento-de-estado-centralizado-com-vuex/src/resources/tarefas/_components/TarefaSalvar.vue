@@ -7,25 +7,42 @@
         <div :class="classeColuna">
           <div class="form-group">
             <label>Título</label>
-            <input type="text" :class="isTitleClass" class="form-control mt-3" id="titulo"
-              placeholder="Título da tarefa" v-model="tarefa.titulo" required>
+            <input
+              type="text"
+              :class="isTitleClass"
+              class="form-control mt-3"
+              id="titulo"
+              placeholder="Título da tarefa"
+              v-model="tarefa.titulo"
+              required
+            >
             <div :class="isTitleMessageClass">
               {{ isTitleMessage }}
             </div>
           </div>
         </div>
-        <div class="col-sm-2" v-if="tarefaSelecionada">
+        <div
+          class="col-sm-2"
+          v-if="tarefaSelecionada"
+        >
           <div class="form-group">
             <label>Tarefa concluída?</label>
-            <button type="button" class="btn btn-sm d-block" :class="classeBotao"
-              @click="tarefa.concluido = !tarefa.concluido">
+            <button
+              type="button"
+              class="btn btn-sm d-block"
+              :class="classeBotao"
+              @click="tarefa.concluido = !tarefa.concluido"
+            >
               <i class="fa fa-check"></i>
             </button>
           </div>
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary">{{ tituloSalvarOuEditar() }}</button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+      >{{ tituloSalvarOuEditar() }}</button>
     </form>
   </div>
 </template>
